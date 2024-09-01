@@ -2,11 +2,11 @@ FROM node:22-alpine
 
 WORKDIR /code
 
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+COPY js/package.json package.json
+COPY js/package-lock.json package-lock.json
 
 RUN npm install
 
- COPY . .
+COPY js/ .
 
- CMD [ "npm", "start" ]
+CMD [ "npm", "start" ]
