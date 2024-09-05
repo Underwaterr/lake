@@ -1,4 +1,5 @@
 import Router from '@koa/router'
+import organizationRouter from './organization/router.js'
 
 export default new Router()
-  .get('/entities', ctx=> ctx.body = 'test entities endpoint')
+  .use('/organization', organizationRouter.routes())
