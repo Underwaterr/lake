@@ -3,7 +3,7 @@ import pg from 'pg'
 
 // We use a client instead of a pool
 // in order to keep each migration as a full transaction
-let { Client } = pg
+let { Pool } = pg
 
 let pool = new Pool()
 

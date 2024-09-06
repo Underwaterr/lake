@@ -1,11 +1,11 @@
-//import defaultController from 
+import model from './model.js'
 
 let defaults = {
   async create(ctx) {
-    ctx.body = 'default create'
+    ctx.body = await model.create()
   },
   async getAll(ctx) {
-    ctx.body = 'default get all'
+    ctx.body = { ok: true }
   },
   async getById(ctx) {
     ctx.body = 'default get by id'

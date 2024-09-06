@@ -12,17 +12,26 @@ services:
       PGDATABASE: lake
     healthcheck:
       test: [ "CMD", "pg_isready" ]
-      interval: 10s
-      timeout: 10s
+      interval: 2s
+      timeout: 2s
       retries: 5
 
   node:
     build: js
-    depends_on:
-      postgres:
-        condition: service_healthy
+      #depends_on:
+      #postgres:
+      #condition: service_healthy
     ports:
       - 9000:9000
+    develop:
+      watch:
+        - action: sync
+          path: ./js/
+          target: /code
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: package.json
 
 volumes:
   database:

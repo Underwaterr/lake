@@ -19,5 +19,5 @@ export default async function (ctx, next) {
     ctx.request.path
   )
 
-  next()
+  await next()
 }

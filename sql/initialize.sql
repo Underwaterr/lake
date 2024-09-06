@@ -1,12 +1,14 @@
 
 BEGIN;
 
--- USER
+-- set credentials for `lake_admin` user
+
 GRANT ALL PRIVILEGES ON DATABASE lake TO lake_admin;
 ALTER DATABASE lake OWNER TO lake_admin;
 
 
 -- MIGRATIONS
+
 CREATE TABLE migration (
   version               int,
   description           text,
@@ -106,8 +108,8 @@ CREATE TABLE flight (
   start_time            timestamp with time zone,
   duration              interval,
   end_time              timestamp with time zone,
+  path                  geography(linestringm),
   -- flight_log
-  -- path
   -- subpolygon
 
   decco_id              bigint references decco(id),
@@ -129,7 +131,7 @@ CREATE TABLE flight_event (
   level                 flight_event_level not null,
   start_time            timestamp with time zone,
   type                  flight_event_type not null default('INFO'),
-  -- location
+  location              geography(point),
 
   decco_id              bigint references decco(id),
   flight_id             bigint references flight(id)
