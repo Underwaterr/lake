@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker compose down --volume
+docker compose down --volumes

@@ -1,20 +1,38 @@
-import table from './table.js'
-import query from '../../../../database/query.js'
+import database from '../../../../database.js'
 
 export default {
-  async create() {
-    let q = `SELECT * FROM ${table.name};`
-    let result = await query(q)
-    return result.rows
-  }
-  /*
-  getAll() {
-    let q = `SELECT * FROM ${table.name};`
-    return query(q)
-  }
-  create() {
-    let q = `INSERT INTO ${table.name} (${table.columns.join(',')}) VALUES ($1)`
-    pool.query(q, [name])
+
+  async create(organization) {
+    let q = `INSERT INTO organization (name)
+             VALUES ($1);`
+    let v = [organization.name]
+    return await database.query(q, v)
   },
-  */
+
+  async getAll() {
+    let q = 'SELECT * FROM organization;'
+    return await database.query(q)
+  },
+
+  async getById(id) {
+    let q = `SELECT * FROM organization
+             WHERE id = $1;`
+    let v = [id]
+    return await database.query(q, v)
+  },
+
+  async update(id, organization) {
+    let q = `UPDATE organization
+             SET name = $1
+             WHERE id = $2;`
+    let v = [organization.name, id]
+    return await database.query(q, v)
+  },
+
+  async delete(id) {
+    let q = `DELETE FROM organization
+             WHERE id = $1;`
+    let v = [id]
+    return await database.query(q, v)
+  }
 }

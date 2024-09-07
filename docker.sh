@@ -20,4 +20,4 @@
 #docker build --tag lake-postgres sql/. && \
 #docker compose up --watch
 
-docker network create lake_network
+#docker network create lake_network

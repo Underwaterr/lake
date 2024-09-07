@@ -1,27 +1,24 @@
 import model from './model.js'
 
-let defaults = {
+export default {
   async create(ctx) {
-    ctx.body = await model.create()
+    let organization = ctx.request.body
+    ctx.body = await model.create(organization)
   },
   async getAll(ctx) {
-    ctx.body = { ok: true }
+    ctx.body = await model.getAll()
   },
   async getById(ctx) {
-    ctx.body = 'default get by id'
+    let id = ctx.params['id']
+    ctx.body = await model.getById(id)
   },
   async update(ctx) {
-    ctx.body='default update'
+    let organization = ctx.request.body.organization
+    let id = ctx.params['id']
+    ctx.body = await model.update(id, organization)
   },
   async delete(ctx) {
-    ctx.body = 'default delete'
+    let id = ctx.params['id']
+    ctx.body = await model.delete(id)
   }
-}
-
-let overrides = {
-}
-
-export default {
-  ...defaults,
-  ...overrides
 }

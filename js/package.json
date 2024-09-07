@@ -2,11 +2,12 @@
   "type": "module",
   "scripts": {
     "start": "node --watch-path=./ index.js",
-    "test": "node --test"
+    "test": "reset && node --test"
   },
   "dependencies": {
     "@koa/bodyparser": "^5.1.1",
     "@koa/router": "^13.0.0",
+    "@stdlib/utils-noop": "^0.2.2",
     "dotenv": "^16.4.5",
     "koa": "^2.15.3",
     "pg": "^8.12.0"

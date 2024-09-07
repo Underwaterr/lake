@@ -2,6 +2,6 @@ import 'dotenv/config'
 import './check-environment-variables.js'
 import './server/httpServer.js'
 
-import query from './database/query.js'
-let result = await query('SELECT NOW();')
-console.log(result.rows[0].now)
+import database from './database.js'
+let result = await database.query('SELECT NOW();')
+console.log('DB OK!', result[0].now)
