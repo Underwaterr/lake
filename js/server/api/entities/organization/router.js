@@ -1,9 +1,5 @@
-import Router from '@koa/router'
 import controller from './controller.js'
+import createRouter from '../create-router.js'
 
-export default new Router()
-  .get('/', controller.getAll)
-  .post('/', controller.create)
-  .get('/:id', controller.getById)
-  .put('/:id', controller.update)
-  .delete('/:id', controller.delete)
+
+export default createRouter(controller)

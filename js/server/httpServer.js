@@ -1,11 +1,14 @@
 import http from 'node:http'
-import app from './koa.js'
+import app from './middleware/app.js'
+import session from './middleware/session.js'
+import handleUpgrade from './handle-upgrade.js'
 import handleListen from './handle-listen.js'
 import handleError from './handle-error.js'
 
-let httpServer =  http.createServer(app.callback())
+let httpServer =  http.createServer()
 
-httpServer.on('upgrade', (request, socket, head)=> { }) // websocket connections
+httpServer.on('request', app) // pass requests to Express middleware
+httpServer.on('upgrade', handleUpgrade(session)) // for websocket connections
 httpServer.on('listening', handleListen(httpServer))
 httpServer.on('error', handleError)
 

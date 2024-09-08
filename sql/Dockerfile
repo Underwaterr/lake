@@ -6,3 +6,4 @@ ENV POSTGRES_DB=lake
 
 COPY initialize.sql /docker-entrypoint-initdb.d/
 COPY seed.sql /docker-entrypoint-initdb.d/
+COPY session.sql /docker-entrypoint-initdb.d/

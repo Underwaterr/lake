@@ -103,15 +103,19 @@ test('organization', async t=> {
       // Arrange
       mock.method(model, 'create',  noop)
       let organization = { name: 'test-organization' }
-      let ctx = { request: { body: organization } }
+      let request = { body: organization }
+      let response = { json: mock.fn() }
 
       // Act
-      controller.create(ctx)
+      await controller.create(request, response)
 
       // Assert
       assert.equal(
         model.create.mock.callCount(), 1,
         'create method called')
+      assert.equal(
+        response.json.mock.callCount(), 1,
+        'json method called')
       assert.deepStrictEqual(
         model.create.mock.calls[0].arguments[0], organization,
         'pass in the organization')
@@ -121,27 +125,35 @@ test('organization', async t=> {
 
       // Arrange
       mock.method(model, 'getAll',  noop)
-      let ctx = {}
+      let request = {}
+      let response = { json: mock.fn() }
 
       // Act
-      controller.getAll(ctx)
+      await controller.getAll(request, response)
 
       // Assert
       assert.equal(1, model.getAll.mock.callCount())
+      assert.equal(
+        response.json.mock.callCount(), 1,
+        'json method called')
     })
 
     await t.test('get by id', async t=> {
 
       // Arrange
       mock.method(model, 'getById', noop)
-      let ctx = { params: { id: 12 } }
+      let request = { params: { id: 12 } }
+      let response = { json: mock.fn() }
 
       // Act
-      controller.getById(ctx)
+      await controller.getById(request, response)
 
       // Assert
       assert.equal(1, model.getById.mock.callCount())
-      assert.equal(ctx.params.id, model.getById.mock.calls[0].arguments[0])
+      assert.equal(request.params.id, model.getById.mock.calls[0].arguments[0])
+      assert.equal(
+        response.json.mock.callCount(), 1,
+        'json method called')
     })
 
     await t.test('update', async t=> {
@@ -149,17 +161,21 @@ test('organization', async t=> {
       // Arrange
       mock.method(model, 'update',  noop)
       let organization = { name: 'test-organization' }
-      let ctx = { params: { id: 12 }, request: { body: organization } }
+      let request = { params: { id: 12 }, body: organization }
+      let response = { json: mock.fn() }
 
       // Act
-      controller.update(ctx)
+      await controller.update(request, response)
 
       // Assert
       assert.equal(
         model.update.mock.callCount(), 1,
         'called once')
       assert.equal(
-        model.update.mock.calls[0].arguments[0], ctx.params.id,
+        response.json.mock.callCount(), 1,
+        'json method called')
+      assert.equal(
+        model.update.mock.calls[0].arguments[0], request.params.id,
         'pass in id')
       assert.deepStrictEqual(
         model.update.mock.calls[0].arguments[1], organization,
@@ -170,17 +186,21 @@ test('organization', async t=> {
 
       // Arrange
       mock.method(model, 'delete',  noop)
-      let ctx = { params: { id: 12 } }
+      let request = { params: { id: 12 } }
+      let response = { json: mock.fn() }
 
       // Act
-      controller.delete(ctx)
+      await controller.delete(request, response)
 
       // Assert
       assert.equal(
         model.delete.mock.callCount(), 1,
         'delete method called once')
       assert.equal(
-        model.update.mock.calls[0].arguments[0], ctx.params.id,
+        response.json.mock.callCount(), 1,
+        'json method called')
+      assert.equal(
+        model.update.mock.calls[0].arguments[0], request.params.id,
         'pass in id')
     })
   })

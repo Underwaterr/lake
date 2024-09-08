@@ -8,5 +8,4 @@ export default httpServer=> ()=> {
   // log the IP address of the server
   let addressInfo = httpServer.address()
   process.stdout.write(`${addressInfo.address}:${addressInfo.port}\n`)
-
 }

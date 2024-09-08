@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-docker compose up --detach && \
+docker compose up --build --force-recreate --detach && \
 docker compose ps
