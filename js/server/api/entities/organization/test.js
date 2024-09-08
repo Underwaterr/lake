@@ -78,7 +78,7 @@ test('organization', async t=> {
     })
 
 
-    await t.test('delete', async t=> {
+    await t.test('destroy', async t=> {
 
       // Arrange
       mock.method(database, 'query', noop)
@@ -182,20 +182,20 @@ test('organization', async t=> {
         'pass in the organization')
     })
 
-    await t.test('delete', async t=> {
+    await t.test('destroy', async t=> {
 
       // Arrange
-      mock.method(model, 'delete',  noop)
+      mock.method(model, 'destroy',  noop)
       let request = { params: { id: 12 } }
       let response = { json: mock.fn() }
 
       // Act
-      await controller.delete(request, response)
+      await controller.destroy(request, response)
 
       // Assert
       assert.equal(
-        model.delete.mock.callCount(), 1,
-        'delete method called once')
+        model.destroy.mock.callCount(), 1,
+        'destroy method called once')
       assert.equal(
         response.json.mock.callCount(), 1,
         'json method called')

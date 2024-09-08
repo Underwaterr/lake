@@ -23,6 +23,7 @@ app.use(log)
 // Set headers to allow for CORS from front-end
 // + other security stuff
 // More TODO: https://helmetjs.github.io/
+// More More TODO: https://nodejs.org/en/learn/getting-started/security-best-practices
 app.use(cors)
 
 // Parse incoming JSON requests

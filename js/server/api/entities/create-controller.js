@@ -19,9 +19,9 @@ export default function(model, overrides={}) {
       let id = request.params['id']
       response.json(await model.update(id, data))
     },
-    async delete(request, response) {
+    async destroy(request, response) {
       let id = request.params['id']
-      response.json(await model.delete(id))
+      response.json(await model.destroy(id))
     }
   }
 
