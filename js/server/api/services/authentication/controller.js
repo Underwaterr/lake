@@ -1,9 +1,19 @@
+import model from './model.js'
+
 export default {
   async login(request, response, next) {
-    let user = { id: 0, username: 'fake' }
+    let email = request.body.email
+    let password = request.body.password
+    let user = await model.loginUser(email, password)
+
     request.session.authenticated = true
     request.session.user = user
-    response.json(user)
+
+    // call `response.json` inside the `request.session.save` callback
+    // this avoids a race condition
+    request.session.save(()=> {
+      response.json(user)
+    })
   },
   async logout(request, response, next) {
     request.session.destroy(error=> {

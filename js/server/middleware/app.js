@@ -5,10 +5,6 @@ import error from './error.js'
 import session from './session.js'
 import router from '../api/router.js'
 
-// TODO
-// import router from '../../api/router'
-
-
 let app = express()
 
 // Disable unnecessary 'x-powered-by' header that Express adds by default

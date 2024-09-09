@@ -2,7 +2,7 @@ import { test, mock } from 'node:test'
 import { strict as assert } from 'node:assert'
 import noop from '@stdlib/utils-noop'
 
-test('organization', async t=> {
+test('user', async t=> {
 
   await t.test('model', async t=> {
 
@@ -13,11 +13,16 @@ test('organization', async t=> {
     await t.test('create', async t=> {
 
       // Arrange
-      let organization = { name: 'test-organization' }
+      let user = {
+        email: 'test@example.com',
+        password: '1234',
+        pilot_license: 'test-license',
+        organization_id: 1
+      }
       mock.method(database, 'query', noop)
 
       // Act
-      await model.create(organization)
+      await model.create(user)
 
       // Assert
       assert.equal(

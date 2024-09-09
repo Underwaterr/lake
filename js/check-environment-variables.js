@@ -1,6 +1,7 @@
 // Array of each environment variable we expect
 let expectedEnvironmentVariables = [
-  'PORT'
+  'PORT', 'SESSION_SECRET', 'API_URL',
+  'PGUSER', 'PGPASSWORD', 'PGHOST', 'PGPORT', 'PGDATABASE'
 ]
 
 // For each environment variable,
