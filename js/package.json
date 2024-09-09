@@ -15,7 +15,8 @@
     "lodash.snakecase": "^4.1.1",
     "lodash.transform": "^4.6.0",
     "pg": "^8.12.0",
-    "squid": "^0.5.2"
+    "squid": "^0.5.2",
+    "ws": "^8.18.0"
   },
   "engines": {
     "node": "=22"

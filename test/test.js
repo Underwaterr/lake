@@ -1,7 +1,36 @@
+import 'dotenv/config'
 import { strict as assert } from 'node:assert'
 import { test } from 'node:test'
 import call from './call.js'
 
+
+test('user_', async t=> {
+  let result = null
+  let id = null
+  let user = {
+    email: 'test2@example.com',
+    password: '1234',
+    pilot_license: 'test-license',
+    organization_id: 1
+  }
+
+  console.log('\nGet all users...')
+  result = await call('user')
+  console.log(result)
+
+  console.log('\nInsert user...')
+  result = await call('user', 'POST', user)
+  id = result[0].id
+  console.log(id, result)
+
+  console.log('\nGet it...')
+  result = await call('user/' + id)
+  console.log(result)
+
+  console.log('\nDelete it...')
+  result = await call('user/' + id, 'DELETE')
+  console.log(result)
+})
 
 test('organization', async t=> {
 
@@ -28,5 +57,4 @@ test('organization', async t=> {
   console.log('\nGet all of them...')
   result = await call('organization')
   console.log(result)
-
 })

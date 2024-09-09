@@ -1,6 +1,8 @@
+import startWebSocket from './web-socket/start.js'
+
 export default session=> (request, socket, head)=> {
   // When handling websocket upgrade, include session data
   session(request, {}, ()=> {
-    webSocket(request, socket, head)
+    startWebSocket(request, socket, head)
   })
 }

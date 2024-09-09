@@ -1,11 +1,19 @@
 import { Router } from 'express'
 import checkAuthentication from '../../middleware/check-authentication.js'
+import burnUnitRouter from './burn-unit/router.js'
+import flightEventRouter from './flight-event/router.js'
+import flightRouter from './flight/router.js'
 import organizationRouter from './organization/router.js'
+import surveyRouter from './survey/router.js'
 import userRouter from './user/router.js'
 
 let router = new Router()
 router.use(checkAuthentication)
+router.use('/burn-unit', burnUnitRouter)
+router.use('/flight', flightRouter)
+router.use('/flight-event', flightEventRouter)
 router.use('/organization', organizationRouter)
-router.use('/user', userRouter) // TODO: create user requires authentication
+router.use('/survey', surveyRouter)
+router.use('/user', userRouter)
 
 export default router
