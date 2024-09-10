@@ -34,12 +34,12 @@ export default {
     `))[0]
   },
 
-  async loginDecco(name, attemptedPassword) {
+  async loginDecco(name, organizationId, attemptedPassword) {
     // get decco via name
     let result = await database.query(sql`
       SELECT *
       FROM decco
-      WHERE name = ${name};
+      WHERE name = ${name} AND organization_id = ${organizationId};
     `)
 
     // bail if decco not found

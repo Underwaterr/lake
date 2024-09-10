@@ -107,7 +107,8 @@ CREATE TABLE flight (
   subpolygon            geography(polygon),
 
   decco_id              int references decco(id),
-  pilot_id              int references user_(id)
+  pilot_id              int references user_(id),
+  survey_id             int references survey(id)
 );
 
 CREATE TYPE flight_event_level AS ENUM (

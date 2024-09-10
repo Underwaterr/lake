@@ -39,6 +39,14 @@ export default createModel('decco', {
       WHERE id = ${id}
       RETURNING id, name, status, is_virtual, callsign, organization_id;
     `)
-  }
+  },
 
+  async setStatus(id, status) {
+    return await database.query(sql`
+      UPDATE decco
+      SET status = ${status}
+      WHERE id = id
+      RETURNING id, name, status, is_virtual, callsign, organization_id;
+    `)
+  }
 })

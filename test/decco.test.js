@@ -35,6 +35,13 @@ await test('decco', async t=> {
     console.log(result)
   })
 
+  await t.test('set status of decco', async t=> {
+    console.log('\nchange...')
+    let x = { status: 'INFLIGHT' }
+    result = await call('decco/set-status/' + id, 'PUT', x)
+    console.log(result)
+  })
+
   await t.test('delete decco', async t=> {
     console.log('\nDelete it...')
     result = await call('decco/' + id, 'DELETE')

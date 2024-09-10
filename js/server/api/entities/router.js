@@ -9,7 +9,7 @@ import surveyRouter from './survey/router.js'
 import userRouter from './user/router.js'
 
 let router = new Router()
-//router.use(checkAuthentication)
+router.use(checkAuthentication)
 router.use('/burn-unit', burnUnitRouter)
 router.use('/decco', deccoRouter)
 router.use('/flight', flightRouter)

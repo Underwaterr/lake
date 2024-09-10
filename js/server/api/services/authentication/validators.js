@@ -10,6 +10,7 @@ export let loginUserValidator = vine.compile(
 export let loginDeccoValidator = vine.compile(
   vine.object({
     name: vine.string(),
+    organization_id: vine.number(),
     password: vine.string()
   })
 )
