@@ -4,7 +4,19 @@ let url = 'http://localhost:9000/'
 let cookie = null
 
 async function getCookie() {
-  let response = await fetch(url + 'login', { method: 'POST' })
+  let user = {
+    email: "test@example.com",
+    password: "1234"
+  }
+  let fetchOptions = {
+    method: 'POST',
+    headers: { 
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user)
+  }
+  let response = await fetch(url + 'authentication/user', fetchOptions)
   cookie = response.headers.get('set-cookie')
 }
 

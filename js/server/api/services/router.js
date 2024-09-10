@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import controller from './authentication/controller.js'
-
+import authenticationRouter from './authentication/router.js'
+import cortexRouter from './cortex/router.js'
 
 let router = new Router()
-router.post('/login', controller.login)
-router.get('/logout', controller.logout)
-router.get('/login', controller.check)
+
+router.use('/authentication', authenticationRouter)
+router.use('/cortex', cortexRouter)
 
 export default router

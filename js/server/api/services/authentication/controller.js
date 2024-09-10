@@ -1,11 +1,11 @@
 import model from './model.js'
+import { loginUserValidator, loginDeccoValidator } from './validators.js'
 
 export default {
-  async login(request, response, next) {
 
+  async loginUser(request, response, next) {
     try {
-      let email = request.body.email
-      let password = request.body.password
+      let { email, password } = await loginUserValidator.validate(request.body)
       let user = await model.loginUser(email, password)
 
       request.session.authenticated = true
@@ -13,14 +13,26 @@ export default {
 
       // call `response.json` inside the `request.session.save` callback
       // this avoids a race condition
-      request.session.save(()=> {
-        response.json(user)
-      })
+      request.session.save(()=> { response.json(user) })
     }
     catch(error) {
       next(error)
     }
   },
+
+  async loginDecco(request, response, next) {
+    try {
+      let { name, password } = await loginDeccoValidator.validate(request.body)
+      let success = await model.loginDecco(name, password)
+
+      request.session.authenticated = true
+      request.session.save(()=> { response.json(user) })
+    }
+    catch(error) {
+      next(error)
+    }
+  },
+
   async logout(request, response, next) {
     request.session.destroy(error=> {
       if(error) next(error)
@@ -30,6 +42,7 @@ export default {
       }
     })
   },
+
   async check(request, response) {
     if(request.session.authenticated) response.json(request.session.user)
     else response.json(null)

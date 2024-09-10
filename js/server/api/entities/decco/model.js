@@ -8,7 +8,6 @@ export default createModel('decco', {
   async create(decco) {
     // hash the password before storing it
     decco.password = await argon2.hash(decco.password)
-    console.log('\nHASHIN;\n')
     return await database.query(sql`
       INSERT INTO decco
       ${spreadInsert(decco)}
@@ -30,6 +29,15 @@ export default createModel('decco', {
     return await database.query(sql`
       SELECT id, name, status, is_virtual, callsign, organization_id
       FROM decco;
+    `)
+  },
+
+  async destroy(id) {
+    // don't include password
+    return await database.query(sql`
+      DELETE FROM decco
+      WHERE id = ${id}
+      RETURNING id, name, status, is_virtual, callsign, organization_id;
     `)
   }
 

@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "test:only": "node --test --test-name-pattern"
   },
   "engines": {
     "node": "=22"
