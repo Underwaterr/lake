@@ -10,6 +10,5 @@ let snakify = object=> {
 
 export default function(request, response, next) {
   request.body = snakify(request.body)
-  console.log(request.body)
   next()
 }
