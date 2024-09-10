@@ -1,12 +1,14 @@
 import argon2 from 'argon2'
 import createModel from '../create-model.js'
-
+import database from '../../../../database.js'
+import { sql, spreadInsert } from "squid/pg.js"
 
 export default createModel('decco', {
 
   async create(decco) {
     // hash the password before storing it
-    decco.password = await argon2.hash(user.password)
+    decco.password = await argon2.hash(decco.password)
+    console.log('\nHASHIN;\n')
     return await database.query(sql`
       INSERT INTO decco
       ${spreadInsert(decco)}

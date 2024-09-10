@@ -2,7 +2,7 @@ import { test, mock } from 'node:test'
 import { strict as assert } from 'node:assert'
 import noop from '@stdlib/utils-noop'
 
-test('organization', async t=> {
+test('decco', async t=> {
 
   await t.test('model', async t=> {
 
@@ -12,11 +12,11 @@ test('organization', async t=> {
     await t.test('create', async t=> {
 
       // Arrange
-      let organization = { name: 'test-organization' }
+      let decco = { name: 'test-decco', password: 'test-password' }
       mock.method(database, 'query', noop)
 
       // Act
-      await model.create(organization)
+      await model.create(decco)
 
       // Assert
       assert.equal(
@@ -96,8 +96,8 @@ test('organization', async t=> {
 
       // Arrange
       mock.method(model, 'create',  noop)
-      let organization = { name: 'test-organization' }
-      let request = { body: organization }
+      let decco = { name: 'test-decco' }
+      let request = { body: decco }
       let response = { json: mock.fn() }
 
       // Act
@@ -111,8 +111,8 @@ test('organization', async t=> {
         response.json.mock.callCount(), 1,
         'json method called')
       assert.deepStrictEqual(
-        model.create.mock.calls[0].arguments[0], organization,
-        'pass in the organization')
+        model.create.mock.calls[0].arguments[0], decco,
+        'pass in the decco')
     })
 
     await t.test('get all', async t=> {
@@ -154,8 +154,8 @@ test('organization', async t=> {
 
       // Arrange
       mock.method(model, 'update',  noop)
-      let organization = { name: 'test-organization' }
-      let request = { params: { id: 12 }, body: organization }
+      let decco = { name: 'test-decco' }
+      let request = { params: { id: 12 }, body: decco }
       let response = { json: mock.fn() }
 
       // Act
@@ -172,8 +172,8 @@ test('organization', async t=> {
         model.update.mock.calls[0].arguments[0], request.params.id,
         'pass in id')
       assert.deepStrictEqual(
-        model.update.mock.calls[0].arguments[1], organization,
-        'pass in the organization')
+        model.update.mock.calls[0].arguments[1], decco,
+        'pass in the decco')
     })
 
     await t.test('destroy', async t=> {

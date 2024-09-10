@@ -1,7 +1,6 @@
 import pg from 'pg'
 import transform from 'lodash.transform'
 import camelCase from 'lodash.camelcase'
-import snakeCase from 'lodash.snakecase'
 
 let { Pool } = pg
 
@@ -13,13 +12,6 @@ let camelize = rows=> {
     return transform(row, (result, value, key)=> {
       return result[camelCase(key)] = value
     })
-  })
-}
-
-// convert object keys from camelCase to snake_case
-let snakify = object=> {
-  return transform(object, (result, value, key)=> {
-    return result[snakeCase(key)] = value
   })
 }
 
