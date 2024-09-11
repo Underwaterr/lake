@@ -2,6 +2,7 @@ import argon2 from 'argon2'
 import createModel from '../create-model.js'
 import database from '../../../../database.js'
 import { sql, spreadInsert } from "squid/pg.js"
+import reduce from '../reduce.js'
 
 export default createModel('decco', {
 
@@ -17,11 +18,11 @@ export default createModel('decco', {
 
   async getById(id) {
     // don't include password
-    return await database.query(sql`
+    return reduce(await database.query(sql`
       SELECT id, name, status, is_virtual, callsign, organization_id
       FROM decco
       WHERE id = ${id};
-    `)
+    `))
   },
 
   async getAll() {
@@ -45,7 +46,7 @@ export default createModel('decco', {
     return await database.query(sql`
       UPDATE decco
       SET status = ${status}
-      WHERE id = id
+      WHERE id = ${id}
       RETURNING id, name, status, is_virtual, callsign, organization_id;
     `)
   }

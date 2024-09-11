@@ -99,9 +99,10 @@ test('decco', async t=> {
       let decco = { name: 'test-decco' }
       let request = { body: decco }
       let response = { json: mock.fn() }
+      let next = mock.fn()
 
       // Act
-      await controller.create(request, response)
+      await controller.create(request, response, next)
 
       // Assert
       assert.equal(
@@ -121,9 +122,10 @@ test('decco', async t=> {
       mock.method(model, 'getAll',  noop)
       let request = {}
       let response = { json: mock.fn() }
+      let next = mock.fn()
 
       // Act
-      await controller.getAll(request, response)
+      await controller.getAll(request, response, next)
 
       // Assert
       assert.equal(1, model.getAll.mock.callCount())
@@ -138,9 +140,10 @@ test('decco', async t=> {
       mock.method(model, 'getById', noop)
       let request = { params: { id: 12 } }
       let response = { json: mock.fn() }
+      let next = mock.fn()
 
       // Act
-      await controller.getById(request, response)
+      await controller.getById(request, response, next)
 
       // Assert
       assert.equal(1, model.getById.mock.callCount())
@@ -157,9 +160,10 @@ test('decco', async t=> {
       let decco = { name: 'test-decco' }
       let request = { params: { id: 12 }, body: decco }
       let response = { json: mock.fn() }
+      let next = mock.fn()
 
       // Act
-      await controller.update(request, response)
+      await controller.update(request, response, next)
 
       // Assert
       assert.equal(
@@ -182,6 +186,7 @@ test('decco', async t=> {
       mock.method(model, 'destroy',  noop)
       let request = { params: { id: 12 } }
       let response = { json: mock.fn() }
+      let next = mock.fn()
 
       // Act
       await controller.destroy(request, response)

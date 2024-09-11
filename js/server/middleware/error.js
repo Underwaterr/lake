@@ -1,9 +1,10 @@
 export default async function handleError(error, request, response, next) {
 
-  // for validation errors
+  // validation errors
   if(error.code = 'E_VALIDATION_ERROR') {
-    response.status(422).json(error.messages)
+    response.status(422).json({ error: error.messages })
   }
+
   // all other errors
   else {
     console.error(error)

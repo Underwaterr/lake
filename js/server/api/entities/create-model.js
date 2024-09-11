@@ -1,5 +1,6 @@
 import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 import database from '../../../database.js'
+import reduce from './reduce.js'
 
 export default function (tableName, overrides={}) {
   let defaults = {
@@ -18,10 +19,10 @@ export default function (tableName, overrides={}) {
     },
 
     async getById(id) {
-      return await database.query(sql`
+      return reduce(await database.query(sql`
         SELECT * FROM ${sql.raw(tableName)}
         WHERE id = ${id}
-      `)
+      `))
     },
 
     async update(id, data) {

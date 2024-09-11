@@ -1,8 +1,12 @@
 import pg from 'pg'
+import Postgis from 'postgis'
 import transform from 'lodash.transform'
 import camelCase from 'lodash.camelcase'
 
-let { Pool } = pg
+let { Pool, Client } = pg
+
+let client = new Client()
+let postgis = new Postgis(client)
 
 let pool = new Pool()
 
@@ -10,19 +14,20 @@ let pool = new Pool()
 let camelize = rows=> {
   return rows.map(row=> {
     return transform(row, (result, value, key)=> {
-      return result[camelCase(key)] = value
+      result[camelCase(key)] = value
     })
   })
 }
 
 export default {
-  async query(text, parameters) {
+  async query(q) {
     try {
-      let result = await pool.query(text, parameters)
+      let result = await pool.query(q)
       return camelize(result.rows)
     }
     catch(error) {
       console.error('Database error:', error.message)
     }
-  }
+  },
+  async postgisQuery() {}
 }

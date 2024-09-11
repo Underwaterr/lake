@@ -1,12 +1,12 @@
-let url = 'http://localhost:9000/'
+import 'dotenv/config'
 
-
+let url = process.env['URL']
 let cookie = null
 
 async function getCookie() {
   let user = {
-    email: "test@example.com",
-    password: "1234"
+    email: process.env['EMAIL'],
+    password: process.env['PASSWORD']
   }
   let fetchOptions = {
     method: 'POST',
@@ -20,7 +20,7 @@ async function getCookie() {
   cookie = response.headers.get('set-cookie')
 }
 
-export default async function(endpoint, method='GET', body=null) {
+export default async function(method='GET', endpoint, body=null) {
 
   if(cookie == null) await getCookie()
 

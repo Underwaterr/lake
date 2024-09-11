@@ -1,4 +1,7 @@
 import createModel from '../create-model.js'
+import database from '../../../../database.js'
+import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
+import reduce from '../reduce.js'
 
 export default createModel('survey', {
   async getById(id) {
@@ -12,7 +15,7 @@ export default createModel('survey', {
       SELECT * FROM flight
       WHERE survey_id = ${id}
     `)
-    return survey
+    return reduce(survey)
   },
 
 })

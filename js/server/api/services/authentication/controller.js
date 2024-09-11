@@ -26,7 +26,7 @@ export default {
       let success = await model.loginDecco(name, organization_id, password)
 
       request.session.authenticated = true
-      request.session.save(()=> { response.json(user) })
+      request.session.save(()=> { response.json(success) })
     }
     catch(error) {
       next(error)

@@ -1,4 +1,7 @@
 
+-- we use "timestamp" instead of "bigint" for time tracking
+-- https://blog.sql-workbench.eu/post/epoch-mania/
+
 BEGIN;
 
 -- set credentials for `lake_admin` user
@@ -134,3 +137,14 @@ CREATE TABLE flight_event (
 
 
 COMMIT;
+
+
+-- need user to log in
+INSERT INTO organization (name) VALUES ('R88');
+INSERT INTO user_ (email, password, pilot_license, organization_id)
+VALUES
+  ('admin@example.com', '$argon2id$v=19$m=65536,t=3,p=4$J/QUa5xHKtMf75GXZrl76Q$RiXbKNwiwiakPO0VvVRIXv1KVtqmgh//aT0gMvTtszw', 'xxx', 1);
+
+INSERT INTO decco (name, password, is_virtual, callsign, organization_id)
+VALUES
+  ('rosy-maple', '$argon2id$v=19$m=65536,t=3,p=4$w8UGwlBJcvyoOtLmh4eEeQ$pUDLDkGqXiG1PSfY4gGdk5BKMfhkTcO4YTZ32bhihYE', true, '#6FD6FF', 1)
