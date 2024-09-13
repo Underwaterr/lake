@@ -1,5 +1,5 @@
 import { sql } from "squid/pg.js"
-import database from '../../../database.js'
+import database from '../../../../database.js'
 
 export default {
   async getAll() {

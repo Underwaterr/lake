@@ -1,9 +1,8 @@
 import { Router } from 'express'
+import controller from './controller.js'
 
-export default function(controller) {
-  let router = new Router()
+let router = new Router()
+router.get('/', controller.getAll)
+router.delete('/:sid', controller.destroy)
 
-  router.get('/', controller.getAll)
-
-  return router
-}
+export default router

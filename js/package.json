@@ -13,6 +13,7 @@
     "express": "^4.19.2",
     "express-session": "^1.18.0",
     "lodash.camelcase": "^4.3.0",
+    "lodash.includes": "^4.3.0",
     "lodash.snakecase": "^4.1.1",
     "lodash.transform": "^4.6.0",
     "pg": "^8.12.0",

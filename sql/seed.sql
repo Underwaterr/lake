@@ -5,13 +5,17 @@ VALUES ('R88'),
        ('Mothman Inc.'),
        ('Loch Ness LLC');
 
-INSERT INTO user_ (email, password, pilot_license, organization_id)
+INSERT INTO user_ (email, role, password, pilot_license, organization_id)
 VALUES
-  ('admin@example.com',    '$argon2id$v=19$m=65536,t=3,p=4$J/QUa5xHKtMf75GXZrl76Q$RiXbKNwiwiakPO0VvVRIXv1KVtqmgh//aT0gMvTtszw', 'xxx1', 1),
-  ('test@example.com',    '$argon2id$v=19$m=65536,t=3,p=4$9eCDarw+9/Mbi01unk2D+Q$bMjA0nGFKA0xA7xmX6/9FrfTRZmJYiiuJm8GO+72pB0', 'xxx2', 1),
-  ('second@example.com',   '1234', 'xxx3', 1),
-  ('mothman@example.com',  '1234', 'xxx4', 2),
-  ('nessie@example.com',   '1234', 'xxx5', 3);
+  ('admin@example.com', 'ADMIN',
+   '$argon2id$v=19$m=65536,t=3,p=4$J/QUa5xHKtMf75GXZrl76Q$RiXbKNwiwiakPO0VvVRIXv1KVtqmgh//aT0gMvTtszw',
+    'xxx1', 1),
+  ('test@example.com', 'USER',
+    '$argon2id$v=19$m=65536,t=3,p=4$9eCDarw+9/Mbi01unk2D+Q$bMjA0nGFKA0xA7xmX6/9FrfTRZmJYiiuJm8GO+72pB0',
+    'xxx2', 1),
+  ('second@example.com',   '1234', 'xxx3', 1, 'USER'),
+  ('mothman@example.com',  '1234', 'xxx4', 2, 'USER'),
+  ('nessie@example.com',   '1234', 'xxx5', 3, 'USER');
 
 
 INSERT INTO decco (name, password, is_virtual, callsign, organization_id)

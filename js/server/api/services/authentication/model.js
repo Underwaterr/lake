@@ -1,6 +1,7 @@
 import argon2 from 'argon2'
 import { sql } from "squid/pg.js"
 import database from '../../../../database.js'
+import reduce from '../../entities/reduce.js'
 
 export default {
 
@@ -26,7 +27,7 @@ export default {
 
     // if valid, return user data
     return reduce(await database.query(sql`
-      SELECT user_.email, user_.pilot_license, organization.name
+      SELECT user_.email, user_.pilot_license, user_.role, organization.name
       FROM user_
         JOIN organization
         ON organization.id = user_.organization_id
