@@ -25,13 +25,13 @@ export default {
     }
 
     // if valid, return user data
-    return (await database.query(sql`
+    return reduce(await database.query(sql`
       SELECT user_.email, user_.pilot_license, organization.name
       FROM user_
         JOIN organization
         ON organization.id = user_.organization_id
       WHERE email = ${email};
-    `))[0]
+    `))
   },
 
   async loginDecco(name, organizationId, attemptedPassword) {
@@ -44,18 +44,19 @@ export default {
 
     // bail if decco not found
     if (result.length == 0) {
-      return ({ error: "decco not found" })
+      return new Error("Decco not found")
     }
 
     // bail if password is wrong
     let decco = result[0]
     let validPassword = await argon2.verify(decco.password, attemptedPassword)
     if (!validPassword) {
-      return ({ error: "bad password" })
+      return new Error("Invalid password")
     }
 
-    // if valid, return ok!
-    return ({ ok: true })
+    // if valid, remove password & return decco!
+    delete decco.password
+    return decco
   },
 
   logout(request, response, next) {
