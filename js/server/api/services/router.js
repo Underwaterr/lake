@@ -5,7 +5,10 @@ import cortexRouter from './cortex/router.js'
 
 let router = new Router()
 
+// These routes don't check authentication
 router.use('/authentication', authenticationRouter)
+
+// These will
 router.use(checkAuthentication)
 router.use('/cortex', cortexRouter)
 

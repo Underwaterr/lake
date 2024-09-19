@@ -5,20 +5,20 @@ import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 import reduce from '../reduce.js'
 
 
-export default createModel('user_', {
+export default createModel('User', {
 
-  // the following inserts into both `user_` and `user_authentication` together
-  // keeping it as one transaction helps avoid having a user that can't sign in!
+  // the following inserts into both `User` and `UserAuthentication` together
+  // keeping it one transaction helps avoid partial executions!
   async create({ user, password }) {
     return reduce(await database.query(sql`
       WITH new_user AS (
-        INSERT INTO user_
+        INSERT INTO "User"
         ${spreadInsert(user)}
-        RETURNING id, email, pilot_license, organization_id
+        RETURNING id, email, "pilotLicense", "organizationId"
       )
-      INSERT INTO user_authentication (password, user_id)
+      INSERT INTO user_authentication (password, "userId")
       SELECT ${await argon2.hash(password)}, id
       FROM new_user
-      RETURNING user_id AS id;`))
+      RETURNING "userId" AS id;`))
   }
 })

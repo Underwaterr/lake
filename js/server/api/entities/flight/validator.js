@@ -3,13 +3,13 @@ import vine from '@vinejs/vine'
 export default vine.compile(
   vine.object({
     status: vine.enum(['NOT_STARTED', 'ACTIVE', 'COMPLETE']).optional(),
-    start_time: vine.date().optional(),
+    startTime: vine.date().optional(),
     duration: vine.any().optional(),
-    end_time: vine.date().optional(),
+    endTime: vine.date().optional(),
     path: vine.any().optional(),
     subpolygon: vine.any().optional(),
-    decco_id: vine.number(),
-    pilot_id: vine.number(),
-    survey_id: vine.number()
+    deccoId: vine.number(),
+    pilotId: vine.number(),
+    surveyId: vine.number()
   })
 )

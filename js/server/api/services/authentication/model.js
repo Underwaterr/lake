@@ -11,12 +11,12 @@ export default {
     // get both password and number of login attempts
     let result = reduce(await database.query(sql`
       SELECT
-        user_.id AS id, password, login_attempts,
-        TRUNC(extract(epoch from login_attempts_expires_at) * 1000) AS login_attempts_expires_at
-      FROM user_
-        JOIN user_authentication
-        ON user_authentication.user_id = user_.id
-      WHERE user_.email = ${email};`))
+        "User".id AS id, password, "loginAttempts",
+        TRUNC(extract(epoch from "loginAttemptsExpiresAt") * 1000) AS "loginAttemptsExpiresAt"
+      FROM "User"
+        JOIN "UserAuthentication"
+        ON "UserAuthentication"."userId" = "User".id
+      WHERE "User".email = ${email};`))
 
     let { id, password, loginAttempts, loginAttemptsExpiresAt } = result
     loginAttemptsExpiresAt = parseInt(loginAttemptsExpiresAt)
@@ -25,11 +25,11 @@ export default {
     if (Date.now() > loginAttemptsExpiresAt) {
       console.log('resetting loginAttemptsExpiresAt')
       database.query(sql`
-        UPDATE user_authentication
+        UPDATE "UserAuthentication"
         SET
-          login_attempts = 0,
-          login_attempts_expires_at = (current_timestamp + '1 hour'::interval)
-        WHERE user_authentication.user_id = ${id};`)
+          "loginAttempts" = 0,
+          "loginAttemptsExpriesAt" = (current_timestamp + '1 hour'::interval)
+        WHERE "UserAuthentication."userId" = ${id};`)
     }
     // bail if they've attempted too many passwords!!
     else if (loginAttempts > 5) {
@@ -43,9 +43,9 @@ export default {
     // increment login attempts & bail
     if (!validPassword) {
       database.query(sql`
-        UPDATE user_authentication
-        SET login_attempts = login_attempts + 1
-        WHERE user_authentication.user_id = ${id};`)
+        UPDATE "UserAuthentication"
+        SET "loginAttempts" = "loginAttempts" + 1
+        WHERE "UserAuthentication"."userId" = ${id};`)
       return ({ error: "Invalid password" })
     }
 
@@ -53,9 +53,9 @@ export default {
     // TODO: reset login counter too
     return reduce(await database.query(sql`
       SELECT *
-      FROM user_
-        JOIN organization
-        ON organization.id = user_.organization_id
+      FROM "User"
+        JOIN "Organization"
+        ON "Organization".id = "User"."organizationId"
       WHERE email = ${email};
     `))
   },
@@ -65,13 +65,11 @@ export default {
     // get decco via name
     let result = reduce(await database.query(sql`
       SELECT *
-      FROM decco
-        JOIN decco_authentication
-        ON decco_authentication.decco_id = decco.id
-      WHERE name = ${name} AND organization_id = ${organizationId};
+      FROM "Decco"
+        JOIN "DeccoAuthentication"
+        ON "DeccoAuthentication"."deccoId" = "Decco".id
+      WHERE name = ${name} AND "organizationId" = ${organizationId};
     `))
-
-    console.log(result)
 
     // bail if password is wrong
     let decco = result[0]

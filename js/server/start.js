@@ -8,7 +8,7 @@ import handleError from './handle-error.js'
 export default function() {
   let httpServer =  http.createServer()
   httpServer.on('request', app) // pass requests to Express middleware
-  httpServer.on('upgrade', handleUpgrade(session)) // for websocket connections
+  httpServer.on('upgrade', handleUpgrade(session)) // for webSocket connections
   httpServer.on('listening', handleListen(httpServer))
   httpServer.on('error', handleError)
   httpServer.listen(process.env.PORT)

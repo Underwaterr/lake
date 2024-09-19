@@ -4,50 +4,24 @@ import database from '../../../../database.js'
 import { sql, spreadInsert } from "squid/pg.js"
 import reduce from '../reduce.js'
 
-export default createModel('decco', {
+export default createModel('Decco', {
 
   async create(decco) {
     // hash the password before storing it
     decco.password = await argon2.hash(decco.password)
     return await database.query(sql`
-      INSERT INTO decco
+      INSERT INTO "Decco"
       ${spreadInsert(decco)}
-      RETURNING id, name, status, is_virtual, callsign, organization_id;`
+      RETURNING id, name, status, "isVirtual", callsign, "organizationId";`
     )
-  },
-
-  async getById(id) {
-    // don't include password
-    return reduce(await database.query(sql`
-      SELECT id, name, status, is_virtual, callsign, organization_id
-      FROM decco
-      WHERE id = ${id};
-    `))
-  },
-
-  async getAll() {
-    // don't include password
-    return await database.query(sql`
-      SELECT id, name, status, is_virtual, callsign, organization_id
-      FROM decco;
-    `)
-  },
-
-  async destroy(id) {
-    // don't include password
-    return await database.query(sql`
-      DELETE FROM decco
-      WHERE id = ${id}
-      RETURNING id, name, status, is_virtual, callsign, organization_id;
-    `)
   },
 
   async setStatus(id, status) {
     return await database.query(sql`
-      UPDATE decco
+      UPDATE "Decco"
       SET status = ${status}
       WHERE id = ${id}
-      RETURNING id, name, status, is_virtual, callsign, organization_id;
+      RETURNING *;
     `)
   }
 })

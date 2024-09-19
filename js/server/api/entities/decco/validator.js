@@ -13,8 +13,8 @@ export let defaultValidator = vine.compile(
     name: vine.string(),
     password: vine.string(),
     status: statusEnum.optional(),
-    is_virtual: vine.boolean(),
+    isVirtual: vine.boolean(),
     callsign: vine.string(),
-    organization_id: vine.number()
+    organizationId: vine.number()
   })
 )
