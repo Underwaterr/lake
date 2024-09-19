@@ -26,8 +26,13 @@ export default {
       return camelize(result.rows)
     }
     catch(error) {
-      console.error('Database error:', error.message)
+      if(error instanceof AggregateError) {
+        console.error("Database errors:")
+        for(let e of error.errors) {
+          console.error('\t ', e.message)
+        }
+      }
+      else console.error('Database error:', error.message)
     }
-  },
-  async postgisQuery() {}
+  }
 }

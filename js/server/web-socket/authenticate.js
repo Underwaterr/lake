@@ -1,4 +1,3 @@
-
 export default async function(session, request) {
   return new Promise((resolve, reject)=> {
     session(request, {}, ()=> {

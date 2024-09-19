@@ -7,38 +7,18 @@ import reduce from '../reduce.js'
 
 export default createModel('user_', {
 
-  async create(user) {
-    // hash the password before storing it
-    user.password = await argon2.hash(user.password)
+  // the following inserts into both `user_` and `user_authentication` together
+  // keeping it as one transaction helps avoid having a user that can't sign in!
+  async create({ user, password }) {
     return reduce(await database.query(sql`
-      INSERT INTO user_
-      ${spreadInsert(user)}
-      RETURNING id, email, pilot_license, organization_id`
-    ))
-  },
-
-  async getById(id) {
-    // don't include password
-    return reduce(await database.query(sql`
-      SELECT id, email, pilot_license, organization_id
-      FROM user_
-      WHERE id = ${id}
-    `))
-  },
-
-  async getAll() {
-    // don't include password
-    return await database.query(sql`
-      SELECT id, email, pilot_license, organization_id
-      FROM user_
-    `)
-  },
-  async destroy(id) {
-    // don't include password
-    return await database.query(sql`
-      DELETE FROM user_
-      WHERE id = ${id}
-      RETURNING id, email, pilot_license, organization_id
-    `)
+      WITH new_user AS (
+        INSERT INTO user_
+        ${spreadInsert(user)}
+        RETURNING id, email, pilot_license, organization_id
+      )
+      INSERT INTO user_authentication (password, user_id)
+      SELECT ${await argon2.hash(password)}, id
+      FROM new_user
+      RETURNING user_id AS id;`))
   }
 })

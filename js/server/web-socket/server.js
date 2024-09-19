@@ -2,6 +2,15 @@ import { WebSocketServer } from 'ws'
 
 export default function(request, socket, head, webSocketServers) {
   return new Promise((resolve, reject)=> {
+    let webSocketServer = new WebSocketServer({ noServer: true })
+    webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
+      resolve(webSocket)
+    })
+  })
+}
+
+
+    /*
     let decco = request.session.decco
     let webSocketServerName = `${decco.organizationId}_${decco.name}`
 
@@ -30,3 +39,4 @@ export default function(request, socket, head, webSocketServers) {
     })
   })
 }
+*/

@@ -22,8 +22,8 @@ export default {
 
   async loginDecco(request, response, next) {
     try {
-      let { name, organization_id, password } = await loginDeccoValidator.validate(request.body)
-      let decco = await model.loginDecco(name, organization_id, password)
+      let { name, organizationId, password } = await loginDeccoValidator.validate(request.body)
+      let decco = await model.loginDecco(name, organizationId, password)
 
       request.session.authenticated = true
       request.session.decco = decco

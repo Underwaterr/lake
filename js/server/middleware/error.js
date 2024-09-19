@@ -1,7 +1,9 @@
 export default async function handleError(error, request, response, next) {
 
+  console.log('Error cause', error.cause)
   console.log('Error code', error.code)
   console.log('Erorr message', error.messages)
+  console.log('Error content..', JSON.stringify(error))
 
   // validation errors
   if(error.code == 'E_VALIDATION_ERROR') {
