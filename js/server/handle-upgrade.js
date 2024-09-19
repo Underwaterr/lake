@@ -21,7 +21,8 @@ export default session=> async (request, socket, head)=> {
 
     if(path=='/to-hello-decco') {
       let webSocketServer = await startWebSocketServer(request, socket, head, webSocketServers)
-      webSocketStore.storeServer(request.session.decco, webSocketServer)
+      let { decco, organization } = request.session
+      webSocketStore.storeServer(decco, organization, webSocketServer)
     }
     else if(path=='/to-decco') {
       await startWebSocketClient(request, socket, head, webSocketServers)

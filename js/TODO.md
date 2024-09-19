@@ -1,13 +1,11 @@
+
 Get WebSockets working again!
-Rename database tables & columns to be case-sensitive
 Handle errors consistently
   - VineJS throws exceptions on bad validation D:
 
 --
 
-set ORGANIZATION_ID environment variable on each decco
-
-prevent brute-force password attempts
+write tests for "prevent brute-force password attempts"
 
 avoid DDoS for websocket connections
 
@@ -25,3 +23,9 @@ admin page features...
   - `process.memoryUsage()`?
   - websocket status!
   - view logz
+
+--
+
+Things to change on the other end:
+  - ORGANIZAITON_ID on Decco `.env`
+  - authentication paths changed

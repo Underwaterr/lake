@@ -23,10 +23,11 @@ export default {
   async loginDecco(request, response, next) {
     try {
       let { name, organizationId, password } = await loginDeccoValidator.validate(request.body)
-      let decco = await model.loginDecco(name, organizationId, password)
+      let { decco, organization } = await model.loginDecco(name, organizationId, password)
 
       request.session.authenticated = true
       request.session.decco = decco
+      request.session.organization = organization
 
       request.session.save(()=> { response.json(decco) })
     }

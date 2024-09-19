@@ -23,13 +23,12 @@ export default {
 
     // reset login attempts if it's been long enough
     if (Date.now() > loginAttemptsExpiresAt) {
-      console.log('resetting loginAttemptsExpiresAt')
       database.query(sql`
         UPDATE "UserAuthentication"
         SET
           "loginAttempts" = 0,
-          "loginAttemptsExpriesAt" = (current_timestamp + '1 hour'::interval)
-        WHERE "UserAuthentication."userId" = ${id};`)
+          "loginAttemptsExpiresAt" = (current_timestamp + '1 hour'::interval)
+        WHERE "UserAuthentication"."userId" = ${id};`)
     }
     // bail if they've attempted too many passwords!!
     else if (loginAttempts > 5) {
@@ -61,9 +60,8 @@ export default {
   },
 
   async loginDecco(name, organizationId, attemptedPassword) {
-    console.log('login decco')
     // get decco via name
-    let result = reduce(await database.query(sql`
+    let decco = reduce(await database.query(sql`
       SELECT *
       FROM "Decco"
         JOIN "DeccoAuthentication"
@@ -72,15 +70,24 @@ export default {
     `))
 
     // bail if password is wrong
-    let decco = result[0]
     let validPassword = await argon2.verify(decco.password, attemptedPassword)
     if (!validPassword) {
       return ({ error: "Invalid password" })
     }
 
-    // if valid, remove password & return decco!
+    // remove password from object we'll return
     delete decco.password
-    return decco
+
+    // get the organization!
+    let organization = reduce(await database.query(sql`
+      SELECT *
+      FROM "Organization"
+      WHERE id = ${organizationId};
+    `))
+
+
+
+    return { decco, organization }
   }
 
 }

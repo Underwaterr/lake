@@ -1,54 +1,61 @@
 // web socket servers are grouped by organization id
 // servers are referenced by decco id
 // clients are referenced by user id
-let organizations = new Map()
+let webSocketStore = new Map()
 
 export default {
 
-  storeServer(organization, decco, webSocketServer) {
+  removeServer(organizationId, deccoId) {
+    webSocketStore
+      .get(organizationId).webSocketServers
+      .delete(deccoId)
+  },
+
+
+  storeServer(decco, organization, webSocketServer) {
 
     // add organization if it's not already there
-    if(!organizations.has(organization.id)) {
-      let organization = {
+    if(!webSocketStore.has(organization.id)) {
+      webSocketStore.set(organization.id, {
         organizationName: organization.name,
         webSocketServers: new Map()
-      }
-      organizations.set(organization.id, organization)
+      })
     }
 
     // throw error if web socket server already exists!
-    else if(organizations.get(organization.id).has(decco.id)) {
+    else if(webSocketStore.get(organization.id).webSocketServers.has(decco.id)) {
       throw new Error('WebSocket server already exists')
     }
 
-    let webSocketServerStore = {
-      deccoName: decco.name,
-      webSocket: webSocketServer,
-      clients: new Map(),
-      createdAt: Date.now()
-    }
+    // add webSocketServer to the webSocketStore
+    webSocketStore
+      .get(organization.id).webSocketServers
+      .set(decco.id, {
+        deccoName: decco.name,
+        webSocket: webSocketServer,
+        clients: new Map(),
+        createdAt: Date.now()
+      })
 
-    organizations
-      .get(organization.id)
-      .set(decco.id, webSocketServer)
+    // Log the event!
+    console.log(`${organization.name}'s ${decco.name} has connected!`)
 
-    return webSocketServer
   },
 
   storeClient(user, decco, webSocketClient) {
 
     /*
     // organization should already be there!
-    if(!organizations.has(organization.id)) {
+    if(!webSocketStore.has(organization.id)) {
       throw new Error('WebSocket organization not found')
     }
     // Web Socket server definitely needs to be there
-    else if(!organizations.get(organization.id).has(decco.id)) {
+    else if(!webSocketStore.get(organization.id).has(decco.id)) {
       throw new Error('WebSocket server not found')
     }
     */
 
-    let server = organizations
+    let server = webSocketStore
       .get(organization.id)
       .get(decco.id).socket
 
@@ -58,7 +65,7 @@ export default {
       createdAt: Date.now()
     }
 
-    organizations
+    webSocketStore
       .get(organization.id)
       .get(decco.id).clients
       .set(user.id, webSocketClient)
