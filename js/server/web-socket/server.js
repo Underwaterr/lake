@@ -5,16 +5,30 @@ export default function(request, socket, head, webSocketServers) {
   return new Promise((resolve, reject)=> {
     let webSocketServer = new WebSocketServer({ noServer: true })
     webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
+
+      let organizationId = request.session.organization.id
+      let organizationName = request.session.organization.name
+      let deccoId = request.session.decco.id
+      let deccoName = request.session.decco.name
+
+      webSocket.on('connection', ()=> {
+        console.log('WOOOO')
+      })
+
+      webSocket.on('open', ()=> {
+        console.log('YEAHHH')
+      })
+
       webSocket.on('close', ()=> {
 
         // Log the event
-        let deccoName = request.session.decco.name
-        let organizationName = request.session.organization.name
         console.log(`${organizationName}'s ${deccoName} has disconnected!`)
 
+        // disconnect from all clients
+        let clients = store.getClients(organizationId, deccoId)
+        clients.forEach(ws=> { ws.terminate() })
+
         // Update the store
-        let organizationId = request.session.organization.id
-        let deccoId = request.session.decco.id
         store.removeServer(organizationId, deccoId)
       })
       webSocket.on('error', ()=> { console.log('OH NO WEBSOCKET ERROR!') })

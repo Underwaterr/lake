@@ -33,7 +33,7 @@ CREATE TABLE "Organization" (
 );
 
 
--- USER
+-- USERS
 CREATE TYPE "USER_ROLE"
 AS ENUM ( 'ADMIN', 'USER');
 

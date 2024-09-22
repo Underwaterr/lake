@@ -1,10 +1,4 @@
 
-Get WebSockets working again!
-Handle errors consistently
-  - VineJS throws exceptions on bad validation D:
-
---
-
 write tests for "prevent brute-force password attempts"
 
 avoid DDoS for websocket connections

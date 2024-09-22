@@ -5,12 +5,22 @@ let webSocketStore = new Map()
 
 export default {
 
+  getClients(organizationId, deccoId) {
+    return webSocketStore
+      .get(organizationId).webSocketServers
+      .get(deccoId).clients
+
+  },
+
+  getStore() {
+    return webSocketStore
+  },
+
   removeServer(organizationId, deccoId) {
     webSocketStore
       .get(organizationId).webSocketServers
       .delete(deccoId)
   },
-
 
   storeServer(decco, organization, webSocketServer) {
 
@@ -72,5 +82,6 @@ export default {
 
     return webSocketClient
   }
+
 
 }
