@@ -16,6 +16,20 @@ export default createModel('Decco', {
     )
   },
 
+  async getAll() {
+    return await database.query(sql`
+      SELECT
+        "Decco".id, "Decco".name, "Decco".status, "Decco"."isVirtual", "Decco".callsign,
+        json_build_object(
+          'id', "Organization".id, 
+          'name', "Organization".name
+        ) AS organization
+      FROM "Decco"
+      JOIN "Organization"
+        ON "Organization".id = "Decco"."organizationId";
+    `)
+  },
+
   async setStatus(id, status) {
     return await database.query(sql`
       UPDATE "Decco"
