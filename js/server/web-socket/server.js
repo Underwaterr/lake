@@ -3,23 +3,41 @@ import store from './store.js'
 
 export default function(request, socket, head, webSocketServers) {
   return new Promise((resolve, reject)=> {
+
     let webSocketServer = new WebSocketServer({ noServer: true })
-    webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
+
+    webSocketServer.handleUpgrade(request, socket, head, server=> {
 
       let organizationId = request.session.organization.id
       let organizationName = request.session.organization.name
       let deccoId = request.session.decco.id
       let deccoName = request.session.decco.name
 
-      webSocket.on('connection', ()=> {
-        console.log('WOOOO')
-      })
 
-      webSocket.on('open', ()=> {
-        console.log('YEAHHH')
+      // ping-pong!
+      /*
+      server.isAlive = true
+      server.on('pong', ()=> {
+        // todo: should set isAlive back to true!
+        console.log('pong!')
       })
+      let ping = clients=> ()=> {
+        clients.forEach(ws=> {
+          if (ws.isAlive == false) return ws.terminate()
+          else {
+            ws.isAlive = false 
+            ws.ping()
+          }
+        })
+      }
+      let clients = store.getClients(organizationId, deccoId)
+      let pingInterval = setInterval(ping(clients), 3000)
+      */
 
-      webSocket.on('close', ()=> {
+      server.on('close', ()=> {
+
+        // stop the ping-pong!
+        //clearInterval(pingInterval)
 
         // Log the event
         console.log(`${organizationName}'s ${deccoName} has disconnected!`)
@@ -31,8 +49,10 @@ export default function(request, socket, head, webSocketServers) {
         // Update the store
         store.removeServer(organizationId, deccoId)
       })
-      webSocket.on('error', ()=> { console.log('OH NO WEBSOCKET ERROR!') })
-      resolve(webSocket)
+
+      server.on('error', ()=> { console.log('OH NO WEBSOCKET ERROR!') })
+
+      resolve(server)
     })
   })
 }

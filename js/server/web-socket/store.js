@@ -5,6 +5,26 @@ let webSocketStore = new Map()
 
 export default {
 
+  checkIfTaken(organization, decco) {
+
+    // add organization if it's not already there
+    let hasOrganization = webSocketStore.has(organization.id)
+    if(!hasOrganization) {
+      webSocketStore.set(organization.id, {
+        organizationName: organization.name,
+        webSocketServers: new Map()
+      })
+      // we can safely assume the server is available
+      // since the organization is not there
+      return false
+    }
+
+    // check if the decco is already there,
+    // if so return true!
+    let serverIsTaken = webSocketStore.get(organization.id).webSocketServers.has(decco.id)
+    return serverIsTaken
+  },
+
   getClients(organizationId, deccoId) {
     return webSocketStore
       .get(organizationId).webSocketServers
@@ -23,21 +43,6 @@ export default {
   },
 
   storeServer(decco, organization, webSocketServer) {
-
-    // add organization if it's not already there
-    if(!webSocketStore.has(organization.id)) {
-      webSocketStore.set(organization.id, {
-        organizationName: organization.name,
-        webSocketServers: new Map()
-      })
-    }
-
-    // throw error if web socket server already exists!
-    else if(webSocketStore.get(organization.id).webSocketServers.has(decco.id)) {
-      throw new Error('WebSocket server already exists')
-    }
-
-    // add webSocketServer to the webSocketStore
     webSocketStore
       .get(organization.id).webSocketServers
       .set(decco.id, {
@@ -46,10 +51,7 @@ export default {
         clients: new Map(),
         createdAt: Date.now()
       })
-
-    // Log the event!
     console.log(`${organization.name}'s ${decco.name} has connected!`)
-
   },
 
   storeClient(user, decco, webSocketClient) {

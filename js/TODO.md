@@ -1,4 +1,7 @@
 
+Right now, doing `kill -9 [pid]` on Tymbal doesn't let the process "hang up", so the websocket will just hang! so we need to set up ping/pong to auto-disconnect
+
+
 write tests for "prevent brute-force password attempts"
 
 avoid DDoS for websocket connections
@@ -23,3 +26,4 @@ admin page features...
 Things to change on the other end:
   - ORGANIZAITON_ID on Decco `.env`
   - authentication paths changed
+  - GeoJSON for storing points/paths/locations

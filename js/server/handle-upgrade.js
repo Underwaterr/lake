@@ -20,9 +20,16 @@ export default session=> async (request, socket, head)=> {
     let path = request.url.split('?')[0]
 
     if(path=='/to-hello-decco') {
-      let webSocketServer = await startWebSocketServer(request, socket, head, webSocketServers)
       let { decco, organization } = request.session
-      webSocketStore.storeServer(decco, organization, webSocketServer)
+
+      // did this decco already connect?
+      let isTaken = webSocketStore.checkIfTaken(organization, decco)
+
+      if(!isTaken) {
+        let webSocketServer = await startWebSocketServer(request, socket, head, webSocketServers)
+        webSocketStore.storeServer(decco, organization, webSocketServer)
+      }
+      else socket.end()
     }
     else if(path=='/to-decco') {
       await startWebSocketClient(request, socket, head, webSocketServers)

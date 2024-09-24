@@ -18,7 +18,7 @@ export default function(request, response, next) {
   response.header("X-Content-Type-Options", "nosniff")
   response.header("X-Permitted-Cross-Domain-Policies", "none")
 
-  response.header("Access-Control-Allow-Origin", process.env.FRONT_END_URL)
+  response.header("Access-Control-Allow-Origin", process.env['FRONT_END_URL'])
   response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE")
   response.header("Access-Control-Allow-Credentials", "true")
   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")

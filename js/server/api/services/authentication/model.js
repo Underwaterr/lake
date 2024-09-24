@@ -18,6 +18,10 @@ export default {
         ON "UserAuthentication"."userId" = "User".id
       WHERE "User".email = ${email};`))
 
+    if(result.error) {
+      return ({ error: "User not found" })
+    }
+
     let { id, password, loginAttempts, loginAttemptsExpiresAt } = result
     loginAttemptsExpiresAt = parseInt(loginAttemptsExpiresAt)
 

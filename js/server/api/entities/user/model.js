@@ -20,5 +20,23 @@ export default createModel('User', {
       SELECT ${await argon2.hash(password)}, id
       FROM new_user
       RETURNING "userId" AS id;`))
+  },
+
+  async getAll() {
+    return await database.query(`
+      SELECT
+        "User".id,
+        "User".email,
+        "User".name,
+        "User".role,
+        "User"."pilotLicense",
+        json_build_object(
+          'id', "Organization".id,
+          'name', "Organization".name
+        ) AS organization
+      FROM "User"
+      JOIN "Organization"
+        ON "Organization".id = "User"."organizationId";
+    `)
   }
 })
