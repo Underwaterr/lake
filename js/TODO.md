@@ -2,6 +2,7 @@
 - get multiple (fake?) Hello Decco websocket connections going
 - set up ping/pong for websockets to handle `kill -9 [pid]`
 - Lepidopterist / Proboscis
+  - Admin view!
   - `process.memoryUsage()`?
   - websocket status! (that updates real-time)
   - view logz
@@ -22,3 +23,10 @@ get configuration from the database (per organization?)
 Things to change on the other end:
   - ORGANIZAITON_ID on Decco `.env`
   - authentication paths changed
+
+--
+
+SQL Stuff
+  - split back into separate seed file
+  - have just one big shell script that takes an argument
+    e.g. `db restart`
