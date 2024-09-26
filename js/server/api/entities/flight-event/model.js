@@ -12,33 +12,36 @@ export default createModel('FlightEvent', {
     return await database.query(sql`
       INSERT INTO "FlightEvent"
       (description, level, "startTime", "deccoId", "flightId", location)
-      VALUES (${description}, ${level}, ${startTime}, ${deccoId}, ${flightId}, ST_GeographyFromText(${location}))
+      VALUES (${description}, ${level}, ${startTime}, ${deccoId}, ${flightId}, ST_GeogFromGeoJSON(${location}))
       RETURNING *;`)
   },
 
-  async getAll() {
-    let flightEvents = await database.query(sql`
+  async getAll(flightId=null) {
+    console.log(flightId)
+
+    if(flightId) return reduce(await database.query(sql`
       SELECT
         id, acknowledged, description, level, "startTime", type, "deccoId", "flightId",
-        st_asgeojson(location) AS location
-      FROM "FlightEvent";`)
-    return flightEvents.map(f=> {
-      f.location = JSON.parse(f.location)
-      return f
-    })
+        ST_AsGeoJSON(location)::json AS location
+      FROM "FlightEvent"
+      WHERE "FlightEvent"."flightId" = ${flightId};
+    `))
+
+    else return await database.query(sql`
+      SELECT
+        id, acknowledged, description, level, "startTime", type, "deccoId", "flightId",
+        ST_AsGeoJSON(location)::json AS location
+      FROM "FlightEvent";
+    `)
   },
 
   async getById(id) {
-    let flightEvent = await database.query(sql`
+    return reduce(await database.query(sql`
       SELECT
         id, acknowledged, description, level, "startTime", type, "deccoId", "flightId",
-        st_asgeojson(location) AS location
+        ST_AsGeoJSON(location)::json AS location
       FROM "FlightEvent"
-      WHERE id = ${id};`)
-    flightEvent = flightEvent.map(f=> {
-      f.location = JSON.parse(f.location)
-      return f
-    })
-    return reduce(flightEvent)
+      WHERE id = ${id};
+    `))
   }
 })
