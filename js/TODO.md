@@ -1,11 +1,7 @@
 
-For Alex...
-  - what are we getting with Burn Unit? Survey? etc..
-  - we'll do some GeoJSON formatting tooo
-
 - get multiple (fake?) Hello Decco websocket connections going
 - set up ping/pong for websockets to handle `kill -9 [pid]`
-- start Lepidopterist!
+- Lepidopterist / Proboscis
   - `process.memoryUsage()`?
   - websocket status! (that updates real-time)
   - view logz
@@ -26,12 +22,3 @@ get configuration from the database (per organization?)
 Things to change on the other end:
   - ORGANIZAITON_ID on Decco `.env`
   - authentication paths changed
-  - GeoJSON for storing points/paths/locations
-
---
-
-Patch it all up Wednesday
-Deploy on Thors-day
-Fix Decco stuff on Friday
-Saturday YIKEzzz packing up
-Sunday moving
