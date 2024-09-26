@@ -3,8 +3,6 @@ import startWebSocketServer from './web-socket/server.js'
 import startWebSocketClient from './web-socket/client.js'
 import webSocketStore from './web-socket/store.js'
 
-let webSocketServers = new Map()
-
 export default session=> async (request, socket, head)=> {
   try {
 
@@ -26,13 +24,13 @@ export default session=> async (request, socket, head)=> {
       let isTaken = webSocketStore.checkIfTaken(organization, decco)
 
       if(!isTaken) {
-        let webSocketServer = await startWebSocketServer(request, socket, head, webSocketServers)
+        let webSocketServer = await startWebSocketServer(request, socket, head)
         webSocketStore.storeServer(decco, organization, webSocketServer)
       }
       else socket.end()
     }
     else if(path=='/to-decco') {
-      await startWebSocketClient(request, socket, head, webSocketServers)
+      await startWebSocketClient(request, socket, head)
     }
     else throw new Error('Invalid WebSocket Path')
   }

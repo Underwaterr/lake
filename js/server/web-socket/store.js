@@ -5,6 +5,12 @@ let webSocketStore = new Map()
 
 export default {
 
+  getServer(organizationId, deccoId) {
+    return webSocketStore
+      .get(organizationId).webSocketServers
+      .get(deccoId)
+  },
+
   checkIfTaken(organization, decco) {
 
     // add organization if it's not already there

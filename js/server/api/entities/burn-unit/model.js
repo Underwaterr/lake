@@ -3,31 +3,33 @@ import database from '../../../../database.js'
 import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 
 export default createModel('BurnUnit', {
-
   async getAll() {
-    let burnUnits = await database.query(sql`
+    return await database.query(sql`
       SELECT
-        "BurnUnit".id AS "burnUnitId",
-        "BurnUnit".name,
+        "BurnUnit".id,
         "BurnUnit"."createdAt",
-        "User".email AS "createdByUserEmail",
-        "User".id AS "createdByUserId"
+        "BurnUnit".name,
+
+        json_build_object(
+          'id', "User".id,
+          'email', "User".email,
+          'name', "User".name
+        ) AS "createdByUser",
+
+        json_build_object(
+          'type', "Survey".type,
+          json_build_object(
+            'status', "Flight".status
+          ) AS "flights",
+        ) AS "surveys"
+
       FROM "BurnUnit"
-      JOIN "User"
-      ON "BurnUnit"."createdById" = "User".id
+        JOIN "User"
+        ON "User".id = "BurnUnit"."createdById"
+        JOIN "Survey"
+        ON "Survey"."burnUnitId" = "BurnUnit".id
+          JOIN "Flight"
+          ON "Flight"."surveyId" = "Survey".id;
     `)
-
-    // get surveys
-    await Promise.all(
-      burnUnits.map(async b=> {
-        b.surveys = await database.query(sql`
-          SELECT *
-          FROM "Survey"
-          WHERE "burnUnitId" = ${b.burn_unit_id};
-        `)
-      })
-    )
-    return burnUnits
   }
-
 })

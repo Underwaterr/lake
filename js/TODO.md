@@ -1,10 +1,18 @@
 
-Right now, doing `kill -9 [pid]` on Tymbal doesn't let the process "hang up", so the websocket will just hang! so we need to set up ping/pong to auto-disconnect
+For Alex...
+  - what are we getting with Burn Unit? Survey? etc..
+  - we'll do some GeoJSON formatting tooo
 
+- get multiple (fake?) Hello Decco websocket connections going
+- set up ping/pong for websockets to handle `kill -9 [pid]`
+- start Lepidopterist!
+  - `process.memoryUsage()`?
+  - websocket status! (that updates real-time)
+  - view logz
 
-write tests for "prevent brute-force password attempts"
-
-avoid DDoS for websocket connections
+- run ros2 thru Docker
+- test for brute-force passwort attempts
+- handle DDoS for upgrade requests for websockets
 
 handle these cases consistently:
   - fails to be unique (email, etc)
@@ -13,17 +21,17 @@ handle these cases consistently:
 get configuration from the database (per organization?)
   - max login attempts
 
-handle websocket timeouts with pings
-https://github.com/websockets/ws/tree/master?tab=readme-ov-file#how-to-detect-and-close-broken-connections
-
-admin page features...
-  - `process.memoryUsage()`?
-  - websocket status!
-  - view logz
-
 --
 
 Things to change on the other end:
   - ORGANIZAITON_ID on Decco `.env`
   - authentication paths changed
   - GeoJSON for storing points/paths/locations
+
+--
+
+Patch it all up Wednesday
+Deploy on Thors-day
+Fix Decco stuff on Friday
+Saturday YIKEzzz packing up
+Sunday moving

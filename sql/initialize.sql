@@ -88,6 +88,9 @@ CREATE TABLE "BurnUnit" (
   "createdAt"           timestamp with time zone default current_timestamp,
   "name"                text not null,
 
+  "polygon"             geography(polygon),
+  "subpolygon"          geography(polygon),
+
   "organizationId"      int not null references "Organization"("id"),
   "createdById"         int not null references "User"("id")
 );
