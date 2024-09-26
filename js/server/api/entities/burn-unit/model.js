@@ -4,32 +4,40 @@ import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 
 export default createModel('BurnUnit', {
   async getAll() {
-    return await database.query(sql`
+    let burnUnits = await database.query(sql`
       SELECT
-        "BurnUnit".id,
         "BurnUnit"."createdAt",
-        "BurnUnit".name,
-
         json_build_object(
           'id', "User".id,
           'email', "User".email,
           'name', "User".name
         ) AS "createdByUser",
-
-        json_build_object(
-          'type', "Survey".type,
-          json_build_object(
-            'status', "Flight".status
-          ) AS "flights",
+        "BurnUnit".id,
+        "BurnUnit".name,
+        "BurnUnit"."organizationId",
+        ST_AsGeoJSON("BurnUnit".polygon)::json AS polygon,
+        ST_AsGeoJSON("BurnUnit".subpolygons)::json AS subpolygons,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', "Survey".id,
+              'type', "Survey".type,
+              'flights', (
+                SELECT json_agg(row_to_json("Flight"))
+                FROM "Flight"
+                WHERE "Flight"."surveyId" = "Survey".id
+              )
+            )
+          )
+          FILTER (WHERE "Survey".id IS NOT NULL), '[]'
         ) AS "surveys"
-
       FROM "BurnUnit"
-        JOIN "User"
-        ON "User".id = "BurnUnit"."createdById"
-        JOIN "Survey"
-        ON "Survey"."burnUnitId" = "BurnUnit".id
-          JOIN "Flight"
-          ON "Flight"."surveyId" = "Survey".id;
+      LEFT JOIN "Survey"
+      ON "Survey"."burnUnitId" = "BurnUnit".id
+      LEFT JOIN "User"
+      ON "User".id = "BurnUnit"."createdById"
+      GROUP BY "BurnUnit".id, "User".id;
     `)
+    return burnUnits
   }
 })
