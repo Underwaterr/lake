@@ -23,7 +23,7 @@ export default function(model, validator, overrides={}) {
     async update(request, response, next) {
       try {
         let id = request.params['id']
-        let data = await validator.validate(request.body)
+        let data = request.body
         response.json(await model.update(id, data))
       }
       catch(error) { next(error) }
