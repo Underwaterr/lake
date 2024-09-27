@@ -20,6 +20,18 @@ export default createModel('BurnUnit', {
       ;`
     ))
   },
+  async update(id, data) {
+    return reduce(await database.query(sql`
+      UPDATE "BurnUnit"
+      SET
+        polygon = ST_GeomFromGeoJSON(${data.polygon}),
+        subpolygons = ST_GeomFromGeoJSON(${data.subpolygons})
+      WHERE id = ${id}
+      RETURNING
+        ST_AsGeoJSON(polygon)::json AS polygon,
+        ST_AsGeoJSON(subpolygons)::json AS subpolygons;
+    `))
+  },
   async getAll() {
     let burnUnits = await database.query(sql`
       SELECT
