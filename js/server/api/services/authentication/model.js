@@ -55,7 +55,17 @@ export default {
     // if valid, return user data
     // TODO: reset login counter too
     return reduce(await database.query(sql`
-      SELECT *
+      SELECT
+        json_build_object(
+          'id', "User".id,
+          'email', "User".email,
+          'name', "User".name,
+          'organizationId', "Organization".id
+        ) AS "user",
+        json_build_object(
+          'id', "Organization".id,
+          'name', "Organization".name
+        ) AS "organization"
       FROM "User"
         JOIN "Organization"
         ON "Organization".id = "User"."organizationId"

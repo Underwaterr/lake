@@ -28,7 +28,7 @@ export default session=> async (request, socket, head)=> {
 
       // is that Decco already connected?
       let deccoAlreadyConnected = webSocketStore.check(organization.id, decco.id)
-      if(deccoAlreadyConnected) throw new Error('Decco already connected')
+      if(deccoAlreadyConnected) throw new Error(`Decco ${decco.name} already connected`)
 
       // create the "server"
       let webSocketServer = new WebSocketServer({ noServer: true })
@@ -36,20 +36,56 @@ export default session=> async (request, socket, head)=> {
       // store it
       webSocketStore.storeServer(organization, decco, webSocketServer)
 
+      // events wow
+      webSocketServer.on('connection', (ws, request, path)=> {
+
+        if (request.session.decco) {
+          console.log(`${organization.name}'s ${decco.name} has connected!`)
+        }
+        else {
+          console.log(
+            request.session.user.name,
+            'has connected to',
+            organization.name, decco.name
+          )
+        }
+
+        // set a property on the websocket object to identify its direction
+        ws.path = path
+        // set a listener for messages to each client added to the server
+        ws.on('message', message=> {
+          console.log('message', message.toString())
+          let url = request.url.split('?')[0]
+          webSocketServer.clients.forEach(client => {
+            // if the destination and the source don't match, then send the message
+            // this avoids sending any message back to their source
+            if(client.path != url) client.send(message)
+          })
+        })
+      })
+
       // now upgrade!
       webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
-        console.log(`${organization.name}'s ${decco.name} has connected!`)
+        //console.log(`${organization.name}'s ${decco.name} has connected!`)
+
+        webSocketServer.emit('connection', webSocket, request, path)
 
         webSocket.on('close', ()=> {
           // Log the event
-          console.log(`${organization.name}'s ${decco.name} has disconnected!`)
+          let organizationName = request.session.organization.name
+          let deccoName = request.session.decco.name
+          console.log(`${organizationName}'s ${deccoName} has disconnected!`)
 
           // disconnect from all clients
-          let clients = store.getClients(organization.id, decco.id)
-          clients.forEach(ws=> { ws.terminate() })
+          let clients = webSocketServer.clients
+          clients.forEach(ws=> {
+            // todo: format in topic/gossip form!
+            //ws.send('web socket server closed')
+            ws.terminate()
+          })
 
           // Update the store
-          store.removeServer(organization.id, decco.id)
+          //store.removeServer(organization.id, decco.id)
         })
 
         webSocket.on('error', ()=> { console.error('OH NO WEBSOCKET ERROR!!') })
@@ -67,7 +103,9 @@ export default session=> async (request, socket, head)=> {
       let organizationId = request.session.user.organizationId
 
       let webSocketServer = webSocketStore.getServer(organizationId, deccoId)
-      webSocketServer.handleUpgrade(request, socket, head, onClientUpgrade)
+      webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
+        webSocketServer.emit('connection', webSocket, request, path)
+      })
 
       // TODO: store client!!
     }
