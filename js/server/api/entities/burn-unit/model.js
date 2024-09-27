@@ -13,7 +13,11 @@ export default createModel('BurnUnit', {
         ST_GeomFromGeoJSON(${polygon}),
         ST_GeomFromGeoJSON(${subpolygons})
       )
-      RETURNING *;`
+      RETURNING
+        "createdAt", "createdById", "id", "name", "organizationId",
+        ST_AsGeoJSON(polygon)::json AS polygon,
+        ST_AsGeoJSON(subpolygons)::json AS subpolygons
+      ;`
     ))
   },
   async getAll() {
