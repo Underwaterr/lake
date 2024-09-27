@@ -7,9 +7,9 @@ export default vine.compile(
     duration: vine.any().optional(),
     endTime: vine.date().optional(),
     path: vine.any().optional(),
-    subpolygon: vine.any().optional(),
-    deccoId: vine.number(),
-    pilotId: vine.number(),
+    subpolygon: vine.any(),
+    deccoId: vine.number().optional(),
+    pilotId: vine.number().optional(),
     surveyId: vine.number()
   })
 )
