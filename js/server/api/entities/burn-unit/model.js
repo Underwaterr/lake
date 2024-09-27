@@ -46,11 +46,11 @@ export default createModel('BurnUnit', {
                     'duration', "Flight".duration,
                     'endTime', "Flight"."endTime",
                     'id', "Flight".id,
-                    'path', ST_AsGeoJSON("Flight".path),
+                    'path', ST_AsGeoJSON("Flight".path)::json,
                     'pilotId', "Flight"."pilotId",
                     'startTime', "Flight"."startTime",
                     'status', "Flight".status,
-                    'subpolygon', ST_AsGeoJSON("Flight".subpolygon),
+                    'subpolygon', ST_AsGeoJSON("Flight".subpolygon)::json,
                     'surveyId', "Flight"."surveyId"
                   )
                 )
