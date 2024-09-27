@@ -1,4 +1,7 @@
 import createModel from '../create-model.js'
+import reduce from '../reduce.js'
+import database from '../../../../database.js'
+import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 
 export default createModel('Flight', {
   async create({surveyId, subpolygon}) {
