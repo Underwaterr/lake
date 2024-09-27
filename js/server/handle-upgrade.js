@@ -37,7 +37,23 @@ export default session=> async (request, socket, head)=> {
       webSocketStore.storeServer(organization, decco, webSocketServer)
 
       // now upgrade!
-      webSocketServer.handleUpgrade(request, socket, head, onUpgrade(organization, decco))
+      webSocketServer.handleUpgrade(request, socket, head, webSocket=> {
+        console.log(`${organization.name}'s ${decco.name} has connected!`)
+
+        webSocket.on('close', ()=> {
+          // Log the event
+          console.log(`${organization.name}'s ${decco.name} has disconnected!`)
+
+          // disconnect from all clients
+          let clients = store.getClients(organization.id, decco.id)
+          clients.forEach(ws=> { ws.terminate() })
+
+          // Update the store
+          store.removeServer(organization.id, decco.id)
+        })
+
+        webSocket.on('error', ()=> { console.error('OH NO WEBSOCKET ERROR!!') })
+      })
     }
 
     else if(path=='/to-decco') {

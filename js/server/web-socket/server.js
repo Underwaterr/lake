@@ -13,8 +13,12 @@ let onClose = (organization, decco)=> ()=> {
   store.removeServer(organization.id, decco.id)
 }
 
-export default (organization, decco)=> server=> {
+export default (organization, decco)=> webSocket=> {
   console.log(`${organization.name}'s ${decco.name} has connected!`)
-  server.on('close', onClose(organization, decco))
-  server.on('error', ()=> { console.error('OH NO WEBSOCKET ERROR!!') })
+  webSocket.on('close', onClose(organization, decco))
+  webSocket.on('error', ()=> { console.error('OH NO WEBSOCKET ERROR!!') })
+  webSocket.emit('connection', webSocket)
+
+  // TODO: set Decco status to 'STANDBY'
+
 }
