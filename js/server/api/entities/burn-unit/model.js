@@ -1,8 +1,21 @@
 import createModel from '../create-model.js'
 import database from '../../../../database.js'
 import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
+import reduce from '../reduce.js'
 
 export default createModel('BurnUnit', {
+  async create({name, createdById, organizationId, polygon, subpolygons}) {
+    return reduce(await database.query(sql`
+      INSERT INTO "BurnUnit"
+        ("name", "createdById", "organizationId", "polygon", "subpolygons")
+      VALUES (
+        ${name}, ${createdById}, ${organizationId}, 
+        ST_GeomFromGeoJSON(${polygon}),
+        ST_GeomFromGeoJSON(${subpolygons})
+      )
+      RETURNING *;`
+    ))
+  },
   async getAll() {
     let burnUnits = await database.query(sql`
       SELECT

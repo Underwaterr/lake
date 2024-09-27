@@ -6,6 +6,7 @@ export default vine.compile(
     name: vine.string(),
     organizationId: vine.number(),
     createdById: vine.number(),
-    polygon: vine.any()
+    polygon: vine.any(),
+    subpolygons: vine.any()
   })
 )
