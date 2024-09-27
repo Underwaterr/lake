@@ -40,7 +40,20 @@ export default createModel('BurnUnit', {
               'id', "Survey".id,
               'type', "Survey".type,
               'flights', (
-                SELECT json_agg(row_to_json("Flight"))
+                SELECT json_agg(
+                  json_build_object(
+                    'deccoId', "Flight"."deccoId",
+                    'duration', "Flight".duration,
+                    'endTime', "Flight"."endTime",
+                    'id', "Flight".id,
+                    'path', ST_AsGeoJSON("Flight".path),
+                    'pilotId', "Flight"."pilotId",
+                    'startTime', "Flight"."startTime",
+                    'status', "Flight".status,
+                    'subpolygon', ST_AsGeoJSON("Flight".subpolygon),
+                    'surveyId', "Flight"."surveyId"
+                  )
+                )
                 FROM "Flight"
                 WHERE "Flight"."surveyId" = "Survey".id
               )

@@ -14,6 +14,7 @@ export default createModel('Flight', {
       ;`
     ))
   },
+
   async getAll() {
     return await database.query(sql`
       SELECT
