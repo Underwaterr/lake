@@ -97,7 +97,7 @@ export default session=> async (request, socket, head)=> {
       // get query parameter
       // we gotta do this b/c we aren't using Express
       let parsedUrl = url.parse(request.url, true)
-      let deccoId = parseInt(parsedUrl.query['decco'])
+      let deccoId = parseInt(parsedUrl.query['deccoId'])
 
       // get the organization form the session
       let organizationId = request.session.user.organizationId
