@@ -4,6 +4,7 @@ import database from '../../../../database.js'
 import { sql, spreadInsert, spreadUpdate } from "squid/pg.js"
 
 export default createModel('Flight', {
+
   async create({surveyId, subpolygon}) {
     return reduce(await database.query(sql`
       INSERT INTO "Flight" ("surveyId", "subpolygon")
@@ -13,6 +14,23 @@ export default createModel('Flight', {
         ST_AsGeoJSON(subpolygon)::json AS subpolygon
       ;`
     ))
+  },
+
+  async update(id, {status, startTime, endTime, deccoId, pilotId, subpolygon}) {
+    return reduce(await database.query(sql`
+      UPDATE "Flight"
+      SET
+        "status" = ${status},
+        "startTime" = ${startTime},
+        "endTime" = ${endTime},
+        "deccoId" = ${deccoId},
+        "pilotId" = ${pilotId},
+        "subpolygon" = ST_GeomFromGeoJSON(${subpolygon})
+      WHERE id = ${id}
+      RETURNING
+        "status", "startTime", "endTime", "deccoId", "pilotId",
+        ST_AsGeoJSON(subpolygon)::json AS subpolygon;
+    `))
   },
 
   async getAll() {
