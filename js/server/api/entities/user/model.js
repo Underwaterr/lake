@@ -16,7 +16,7 @@ export default createModel('User', {
         ${spreadInsert(user)}
         RETURNING id, email, "pilotLicense", "organizationId"
       )
-      INSERT INTO user_authentication (password, "userId")
+      INSERT INTO "UserAuthentication" (password, "userId")
       SELECT ${await argon2.hash(password)}, id
       FROM new_user
       RETURNING "userId" AS id;`))
