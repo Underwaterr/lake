@@ -26,20 +26,20 @@ export default function (tableName, overrides={}) {
     },
 
     async update(id, data) {
-      return await database.query(sql`
+      return reduce(await database.query(sql`
         UPDATE "${sql.raw(tableName)}"
         SET ${spreadUpdate(data)}
         WHERE id = ${id}
         RETURNING *;
-      `)
+      `))
     },
 
     async destroy(id) {
-      return await database.query(sql`
+      return reduce(await database.query(sql`
         DELETE FROM "${sql.raw(tableName)}"
         WHERE id = ${id}
         RETURNING *;
-      `)
+      `))
     }
   }
 
