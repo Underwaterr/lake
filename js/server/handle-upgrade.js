@@ -54,7 +54,6 @@ export default session=> async (request, socket, head)=> {
         ws.path = path
         // set a listener for messages to each client added to the server
         ws.on('message', message=> {
-          console.log('message', message.toString())
           let url = request.url.split('?')[0]
           webSocketServer.clients.forEach(client => {
             // if the destination and the source don't match, then send the message
