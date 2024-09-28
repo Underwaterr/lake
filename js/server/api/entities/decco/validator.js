@@ -10,11 +10,13 @@ export let setStatusValidator = vine.compile(
 
 export let defaultValidator = vine.compile(
   vine.object({
-    name: vine.string(),
-    password: vine.string(),
-    status: statusEnum.optional(),
-    isVirtual: vine.boolean(),
-    callsign: vine.string(),
-    organizationId: vine.number()
+    decco: vine.object({
+      name: vine.string(),
+      status: statusEnum.optional(),
+      isVirtual: vine.boolean(),
+      callsign: vine.string(),
+      organizationId: vine.number()
+    }),
+    password: vine.string()
   })
 )

@@ -6,14 +6,18 @@ import reduce from '../reduce.js'
 
 export default createModel('Decco', {
 
-  async create(decco) {
-    // hash the password before storing it
-    decco.password = await argon2.hash(decco.password)
-    return await database.query(sql`
-      INSERT INTO "Decco"
-      ${spreadInsert(decco)}
-      RETURNING id, name, status, "isVirtual", callsign, "organizationId";`
-    )
+  async create({decco, password}) {
+    return reduce(await database.query(sql`
+      WITH new_decco AS (
+        INSERT INTO "Decco"
+        ${spreadInsert(decco)}
+        RETURNING id, name, status, "isVirtual", callsign, "organizationId"
+      )
+      INSERT INTO "DeccoAuthentication" (password, "deccoId")
+      SELECT ${await argon2.hash(password)}, id
+      FROM new_decco
+      RETURNING "deccoId" AS id;
+    `))
   },
 
   async getAll() {
