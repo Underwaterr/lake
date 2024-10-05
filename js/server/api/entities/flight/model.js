@@ -16,6 +16,16 @@ export default createModel('Flight', {
     ))
   },
 
+  async addPoint(id, {point}) {
+    let [ x, y, m ] = point
+    return reduce(await database.query(sql`
+      UPDATE "Flight"
+      SET "path" = ST_AddPoint("path", ST_MakePointM(${x}, ${y}, ${m}))
+      WHERE "Flight".id = ${id}
+      RETURNING "id", ST_AsGeoJSON("path")::json AS "path"
+    ;`))
+  }
+
   async update(id, {status, startTime, endTime, deccoId, pilotId, subpolygon}) {
     return reduce(await database.query(sql`
       UPDATE "Flight"

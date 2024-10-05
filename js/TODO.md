@@ -1,7 +1,13 @@
 
-- get multiple (fake?) Hello Decco websocket connections going
+- IP tracking is just localhost rn lol
 - set up ping/pong for websockets to handle `kill -9 [pid]`
 - Lepidopterist / Proboscis
+    admin-only authentication!
+
+    crud operations
+    web socket monitoring
+    user management
+    user session info
   - Admin view!
   - `process.memoryUsage()`?
   - websocket status! (that updates real-time)
