@@ -12,7 +12,7 @@ export default createModel('FlightEvent', {
     return await database.query(sql`
       INSERT INTO "FlightEvent"
       (description, level, "startTime", "deccoId", "flightId", location)
-      VALUES (${description}, ${level}, ${startTime}, ${deccoId}, ${flightId}, ST_GeogFromGeoJSON(${location}))
+      VALUES (${description}, ${level}, ${startTime}, ${deccoId}, ${flightId}, ST_GeomFromGeoJSON(${location}))
       RETURNING *;`)
   },
 
