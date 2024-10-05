@@ -17,15 +17,14 @@ export default createModel('FlightEvent', {
   },
 
   async getAll(flightId=null) {
-    console.log(flightId)
 
-    if(flightId) return reduce(await database.query(sql`
+    if(flightId) return await database.query(sql`
       SELECT
         id, acknowledged, description, level, "startTime", type, "deccoId", "flightId",
         ST_AsGeoJSON(location)::json AS location
       FROM "FlightEvent"
       WHERE "FlightEvent"."flightId" = ${flightId};
-    `))
+    `)
 
     else return await database.query(sql`
       SELECT
