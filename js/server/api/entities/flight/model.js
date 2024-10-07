@@ -24,7 +24,7 @@ export default createModel('Flight', {
       WHERE "Flight".id = ${id}
       RETURNING "id", ST_AsGeoJSON("path")::json AS "path"
     ;`))
-  }
+  },
 
   async update(id, {status, startTime, endTime, deccoId, pilotId, subpolygon}) {
     return reduce(await database.query(sql`
