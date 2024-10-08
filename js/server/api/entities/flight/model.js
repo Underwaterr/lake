@@ -26,16 +26,10 @@ export default createModel('Flight', {
     ;`))
   },
 
-  async update(id, {status, startTime, endTime, deccoId, pilotId, subpolygon}) {
+  async update(id, data) {
     return reduce(await database.query(sql`
       UPDATE "Flight"
-      SET
-        "status" = ${status},
-        "startTime" = ${startTime},
-        "endTime" = ${endTime},
-        "deccoId" = ${deccoId},
-        "pilotId" = ${pilotId},
-        "subpolygon" = ST_GeomFromGeoJSON(${subpolygon})
+      SET ${spreadUpdate(data)}
       WHERE id = ${id}
       RETURNING
         "status", "startTime", "endTime", "deccoId", "pilotId",
