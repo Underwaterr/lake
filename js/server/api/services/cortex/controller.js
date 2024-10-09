@@ -1,5 +1,5 @@
 import model from './model.js'
-import { centroidSplitterValidator, generateElevationModelValidator } from './validator.js'
+import { centroidSplitterValidator, elevationModelValidator } from './validator.js'
 
 export default {
 
@@ -13,10 +13,10 @@ export default {
     catch(error) { next(error) }
   },
 
-  async generateElevationModel(request, response, next) {
+  async elevationModel(request, response, next) {
     try {
-      let { boundingBox } = await generateElevationModelValidator.validate(request.body)
-      let result = await model.generateElevationModel(boundingBox)
+      let { boundingBox } = await elevationModelValidator.validate(request.body)
+      let result = await model.elevationModel(boundingBox)
       response.json(result)
     }
     catch(error) { next(error) }

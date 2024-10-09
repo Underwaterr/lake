@@ -1,7 +1,7 @@
 import childProcess from 'node:child_process'
-import buildApiUrl from './elevation-map/build-api-url.js'
-import fetchTiffUrls from './elevation-map/fetch-tiff-urls.js'
-import downloadTiff from './elevation-map/download-tiff.js'
+import buildApiUrl from './elevation-model/build-api-url.js'
+import fetchTiffUrls from './elevation-model/fetch-tiff-urls.js'
+import downloadTiff from './elevation-model/download-tiff.js'
 
 export default {
 
@@ -21,7 +21,7 @@ export default {
     })
   },
 
-  async generateElevationModel(boundingBox) {
+  async elevationModel(boundingBox) {
     let apiUrl = buildApiUrl(boundingBox)
     let tiffUrls = await fetchTiffUrls(apiUrl)
 
