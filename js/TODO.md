@@ -1,4 +1,15 @@
 
+Cortex part is at a good stopping point
+  - figure out: how/where to save files!
+Make migration for Elevation Models
+  - Include update to migration table!
+Make endpoints for Migrations &amp; Elevation Models
+... then finish the cortext service!
+
+
+
+--
+
 - IP tracking is just localhost rn lol
 - set up ping/pong for websockets to handle `kill -9 [pid]`
 - Lepidopterist / Proboscis

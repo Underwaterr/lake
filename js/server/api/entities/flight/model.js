@@ -27,6 +27,7 @@ export default createModel('Flight', {
   },
 
   async update(id, data) {
+    if (data['subpolygon']) throw new Error("updating subpolygons is not supported!")
     return reduce(await database.query(sql`
       UPDATE "Flight"
       SET ${spreadUpdate(data)}
