@@ -3,6 +3,7 @@ import checkAuthentication from '../../middleware/check-authentication.js'
 import allow from './allow.js'
 import burnUnitRouter from './burn-unit/router.js'
 import deccoRouter from './decco/router.js'
+import elevationModelRouter from './elevation-model/router.js'
 import flightEventRouter from './flight-event/router.js'
 import flightRouter from './flight/router.js'
 import organizationRouter from './organization/router.js'
@@ -15,6 +16,7 @@ let router = new Router()
 router.use(checkAuthentication)
 router.use('/burn-unit', burnUnitRouter)
 router.use('/decco', deccoRouter)
+router.use('/elevation-model', elevationModelRouter)
 router.use('/flight', flightRouter)
 router.use('/flight-event', flightEventRouter)
 router.use('/organization', organizationRouter)

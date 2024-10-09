@@ -1,11 +1,12 @@
 
-Cortex part is at a good stopping point
-  - figure out: how/where to save files!
-Make migration for Elevation Models
-  - Include update to migration table!
-Make endpoints for Migrations &amp; Elevation Models
-... then finish the cortext service!
+Cortex: figure out how/where to save files
+(Including "volume" on Digital Ocean)
+  - 'elevation-models/cache/'
+  - 'elevation-models/'
 
+Make endpoints for Migrations &amp; Elevation Models
+
+use `ST_MakeEnvelope` to derive geography(polygon) from coordinates
 
 
 --
