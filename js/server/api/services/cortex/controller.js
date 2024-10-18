@@ -1,3 +1,6 @@
+import sse from 'better-sse'
+let { createSession } = sse
+
 import model from './model.js'
 import { centroidSplitterValidator, elevationModelValidator } from './validator.js'
 
@@ -15,9 +18,12 @@ export default {
 
   async elevationModel(request, response, next) {
     try {
-      let { boundingBox } = await elevationModelValidator.validate(request.body)
-      let result = await model.elevationModel(boundingBox)
-      response.json(result)
+      let boundingBox = request.query['bounding-box']
+      console.log('recieved bounding box:', JSON.parse(boundingBox))
+      let sseSession = await createSession(request, response)
+      let file = await model.elevationModel(boundingBox, sseSession)
+      sseSession.push(file, "complete")
+      response.end()
     }
     catch(error) { next(error) }
   }

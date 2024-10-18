@@ -10,7 +10,7 @@ export let centroidSplitterValidator = vine.compile(
 export let elevationModelValidator = vine.compile(
   vine.object({
     boundingBox: vine
-      .array(vine.number())
+      .array(vine.any())
       .fixedLength(4)
   })
 )

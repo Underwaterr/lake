@@ -15,15 +15,16 @@ use `ST_MakeEnvelope` to derive geography(polygon) from coordinates
 - set up ping/pong for websockets to handle `kill -9 [pid]`
 - Lepidopterist / Proboscis
     admin-only authentication!
-
     crud operations
     web socket monitoring
     user management
     user session info
+    datbase schema!
   - Admin view!
   - `process.memoryUsage()`?
   - websocket status! (that updates real-time)
   - view logz
+  - what branch / commit is Hello Decco on?
 
 - run ros2 thru Docker
 - test for brute-force passwort attempts
