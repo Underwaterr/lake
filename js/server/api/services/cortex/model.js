@@ -3,6 +3,7 @@ import fetchTiffUrls from './elevation-model/fetch-tiff-urls.js'
 import filterTiffs from './elevation-model/filter-tiffs.js'
 import getBoundingBox from './elevation-model/get-bounding-box.js'
 import downloadTiffs from './elevation-model/download-tiffs.js'
+import * as childProcess from 'child_process'
 
 export default {
 
