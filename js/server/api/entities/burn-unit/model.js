@@ -51,6 +51,7 @@ export default createModel('BurnUnit', {
             json_build_object(
               'id', "Survey".id,
               'type', "Survey".type,
+              'createdAt', "Survey"."createdAt",
               'flights', (
                 SELECT json_agg(
                   json_build_object(
