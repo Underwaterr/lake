@@ -1,5 +1,6 @@
 import model from './model.js'
 import { loginUserValidator, loginDeccoValidator } from './validators.js'
+import ValidationError from './validation-error-class.js'
 
 export default {
 
@@ -17,7 +18,8 @@ export default {
       request.session.save(()=> { response.json(user) })
     }
     catch(error) {
-      next(error)
+      if(error instanceof ValidationError) response.json({ error: error.message })
+      else next(error)
     }
   },
 
@@ -33,7 +35,8 @@ export default {
       request.session.save(()=> { response.json(decco) })
     }
     catch(error) {
-      next(error)
+      if(error instanceof ValidationError) response.json({ error: error.message })
+      else next(error)
     }
   },
 

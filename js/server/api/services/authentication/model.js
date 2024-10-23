@@ -2,6 +2,7 @@ import argon2 from 'argon2'
 import { sql } from "squid/pg.js"
 import database from '../../../../database.js'
 import reduce from '../../entities/reduce.js'
+import ValidationError from './validation-error-class.js'
 
 export default {
 
@@ -19,7 +20,7 @@ export default {
       WHERE "User".email = ${email};`))
 
     if(result.error) {
-      return ({ error: "User not found" })
+      throw new ValidationError("User not found")
     }
 
     let { id, password, loginAttempts, loginAttemptsExpiresAt } = result
@@ -36,7 +37,7 @@ export default {
     }
     // bail if they've attempted too many passwords!!
     else if (loginAttempts > 5) {
-      return ({ error: "Too many failed login attempts" })
+      throw new ValidationError("Too many failed login attempts")
     }
 
     // check password
@@ -83,10 +84,15 @@ export default {
       WHERE name = ${name} AND "organizationId" = ${organizationId};
     `))
 
+    // bail if not found
+    if (decco.error) {
+      throw new ValidationError("Invalid password")
+    }
+
     // bail if password is wrong
     let validPassword = await argon2.verify(decco.password, attemptedPassword)
     if (!validPassword) {
-      return ({ error: "Invalid password" })
+      throw new ValidationError("Invalid password")
     }
 
     // remove password from object we'll return
@@ -98,8 +104,6 @@ export default {
       FROM "Organization"
       WHERE id = ${organizationId};
     `))
-
-
 
     return { decco, organization }
   }
