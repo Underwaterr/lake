@@ -9,10 +9,9 @@ export default function (request, response, next) {
     // log if session is authenticated
     request.session.authenticated ? '✓' : ' ',
 
-    // Log IP address
-    request.ip.includes('::ffff:')
-      ? request.ip.split(':').reverse()[0]
-      : request.ip,
+    /* Don't bother logging the IP address
+       since it's behind a proxy in production
+       and just shows up as localhost */
 
     // Log Request Method + Path
     request.method,
