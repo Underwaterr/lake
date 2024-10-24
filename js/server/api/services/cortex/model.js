@@ -1,43 +1,43 @@
 import buildEndpoint from './elevation-model/build-endpoint.js'
 import fetchTiffUrls from './elevation-model/fetch-tiff-urls.js'
 import filterTiffs from './elevation-model/filter-tiffs.js'
-import getBoundingBox from './elevation-model/get-bounding-box.js'
 import downloadTiffs from './elevation-model/download-tiffs.js'
+import merge from './elevation-model/merge.js'
+import crop from './elevation-model/crop.js'
 import * as childProcess from 'child_process'
 
 export default {
 
   async elevationModel(boundingBox, sseSession) {
 
+    /*
     // get the tiff file URLs
     sseSession.push('build endpoint URL')
-    //let endpoint = buildEndpoint(boundingBox)
+    let endpoint = buildEndpoint(boundingBox)
 
     sseSession.push('fetch Tiff URLs')
-    //let tiffs = await fetchTiffUrls(endpoint)
+    let tiffs = await fetchTiffUrls(endpoint)
 
     // filter out the files that have already been downloaded
     sseSession.push('check file cache')
-    //let filteredTiffUrls = await filterTiffs(tiffs)
+    let filteredTiffUrls = await filterTiffs(tiffs)
 
-    // wait until all the Tiffs have been downloaded
-    sseSession.push('download Tiffs')
-    // TODO: emit event from `downloadTiffs` on individual file completion?
-    sseSession.push('downloaded Tiff 1 of 3')
-    sseSession.push('downloaded Tiff 2 of 3')
-    sseSession.push('downloaded Tiff 3 of 3')
-    // await downloadTiffs()
+    // Download what tiffs we don't already have!
+    sseSession.push('downloading Tiffs')
+    await downloadTiffs(filteredTiffUrls)
 
     // merge them all!
     // note that we don't want to use the filtered tiff collection for this
     sseSession.push('merge Tiffs')
-    //await mergeTiffs(tiffs)
+    let filePath = await merge(tiffs)
 
     // crop
     sseSession.push('crop Tiffs')
-    //await cropTiff()
+    await crop(boundingBox, filePath)
 
-    return 'https://www.hellodecco.com/path/to/fake.tif'
+    return filePath
+    */
+    return null
   },
 
   centroidSplitter(input) {
