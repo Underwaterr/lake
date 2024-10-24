@@ -1,6 +1,6 @@
 import buildEndpoint from './elevation-model/build-endpoint.js'
-import fetchTiffUrls from './elevation-model/fetch-tiff-urls.js'
-import filterTiffs from './elevation-model/filter-tiffs.js'
+import getTiffUrls from './elevation-model/get-tiff-urls.js'
+import filterTiffUrls from './elevation-model/filter-tiff-urls.js'
 import downloadTiffs from './elevation-model/download-tiffs.js'
 import merge from './elevation-model/merge.js'
 import crop from './elevation-model/crop.js'
@@ -9,35 +9,31 @@ import * as childProcess from 'child_process'
 export default {
 
   async elevationModel(boundingBox, sseSession) {
-
-    /*
-    // get the tiff file URLs
-    sseSession.push('build endpoint URL')
+    // first, given the bounding box, generate the URL we'll use to download the GeoTIFF URLs
     let endpoint = buildEndpoint(boundingBox)
 
-    sseSession.push('fetch Tiff URLs')
-    let tiffs = await fetchTiffUrls(endpoint)
+    sseSession.push('Searching for GeoTIFFs from The National Map API')
+    let tiffUrls = await getTiffUrls(endpoint)
 
-    // filter out the files that have already been downloaded
-    sseSession.push('check file cache')
-    let filteredTiffUrls = await filterTiffs(tiffs)
+    // don't download tiffs we already have!
+    let filteredTiffUrls = await filterTiffUrls(tiffUrls)
 
-    // Download what tiffs we don't already have!
-    sseSession.push('downloading Tiffs')
+    // download the rest
+    sseSession.push('Downloading GeoTIFFs...')
     await downloadTiffs(filteredTiffUrls)
 
-    // merge them all!
-    // note that we don't want to use the filtered tiff collection for this
-    sseSession.push('merge Tiffs')
-    let filePath = await merge(tiffs)
+    // merge all the tiffs together
+    // note that we want all the tiff urls, not just ones we download
+    sseSession.push('Merging GeoTIFFs...')
+    let filePath = await merge(tiffUrls)
 
     // crop
-    sseSession.push('crop Tiffs')
-    await crop(boundingBox, filePath)
+    sseSession.push('Cropping GeoTIFF')
+    let croppedFilePath = await crop(boundingBox, filePath)
 
-    return filePath
-    */
-    return null
+    // return file path via special "complete" event
+    sseSession.push(croppedFilePath, "complete")
+    return;
   },
 
   centroidSplitter(input) {

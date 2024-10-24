@@ -22,7 +22,6 @@ export default {
       let boundingBox = '-97.76454448699953,30.254841317410484,-97.72167205810547,30.27956387570935'
       let sseSession = await createSession(request, response)
       let file = await model.elevationModel(boundingBox, sseSession)
-      sseSession.push(file, "complete")
       response.end()
     }
     catch(error) { next(error) }
