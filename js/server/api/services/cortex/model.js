@@ -1,7 +1,7 @@
 import buildEndpoint from './elevation-model/build-endpoint.js'
 import getTiffUrls from './elevation-model/get-tiff-urls.js'
 import filterTiffUrls from './elevation-model/filter-tiff-urls.js'
-import downloadTiffs from './elevation-model/download-tiffs.js'
+import download from './elevation-model/download.js'
 import merge from './elevation-model/merge.js'
 import crop from './elevation-model/crop.js'
 import * as childProcess from 'child_process'
@@ -20,7 +20,7 @@ export default {
 
     // download the rest
     sseSession.push('Downloading GeoTIFFs...')
-    await downloadTiffs(filteredTiffUrls)
+    await download(filteredTiffUrls, sseSession)
 
     // merge all the tiffs together
     // note that we want all the tiff urls, not just ones we download
@@ -33,7 +33,6 @@ export default {
 
     // return file path via special "complete" event
     sseSession.push(croppedFilePath, "complete")
-    return;
   },
 
   centroidSplitter(input) {

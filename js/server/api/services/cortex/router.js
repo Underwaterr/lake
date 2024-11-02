@@ -4,6 +4,8 @@ import { Router } from 'express'
 let router = Router()
 
 router.post('/centroid-splitter', controller.centroidSplitter)
-router.get('/elevation-model', controller.elevationModel)
+
+// Good night, sweet feature
+//router.get('/elevation-model', controller.elevationModel)
 
 export default router
