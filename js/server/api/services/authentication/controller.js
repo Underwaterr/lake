@@ -7,7 +7,7 @@ export default {
   async loginUser(request, response, next) {
     try {
       let { email, password } = await loginUserValidator.validate(request.body)
-      let { organization, user } = await model.loginUser(email, password)
+      let { organization, user }= await model.loginUser(email, password)
 
       request.session.authenticated = true
       request.session.organization = organization

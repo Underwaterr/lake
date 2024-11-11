@@ -61,6 +61,7 @@ export default {
           'id', "User".id,
           'email', "User".email,
           'name', "User".name,
+          'pilotLicense', "User"."pilotLicense",
           'organizationId', "Organization".id
         ) AS "user",
         json_build_object(
