@@ -22,4 +22,7 @@ let download = async function (url, filename, sseSession) {
   return path
 }
 
-export default (tiffs, sseSession)=> Promise.allSettled(tiffs.map(t=> download(t.url, t.fileName, sseSession)))
+export default (tiffs, sseSession)=>
+  // Resolve Promise when all downloads have completed
+  Promise.allSettled(tiffs.map(t=>
+    download(t.url, t.fileName, sseSession)))
