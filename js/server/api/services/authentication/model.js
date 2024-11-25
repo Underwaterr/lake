@@ -50,12 +50,12 @@ export default {
         UPDATE "UserAuthentication"
         SET "loginAttempts" = "loginAttempts" + 1
         WHERE "UserAuthentication"."userId" = ${id};`)
-      return ({ error: "Invalid password" })
+      throw new ValidationError("Invalid password")
     }
 
     // if valid, return user data
     // TODO: reset login counter too
-    return reduce(await database.query(sql`
+    else return reduce(await database.query(sql`
       SELECT
         json_build_object(
           'id', "User".id,
