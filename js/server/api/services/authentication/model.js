@@ -61,6 +61,7 @@ export default {
           'id', "User".id,
           'email', "User".email,
           'name', "User".name,
+          'role', "User".role,
           'pilotLicense', "User"."pilotLicense",
           'organizationId', "Organization".id
         ) AS "user",
