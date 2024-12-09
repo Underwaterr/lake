@@ -8,8 +8,14 @@ export default {
   async webSockets(request, response) {
     let organizationId = parseInt(request.query['organizationId'])
     let store = webSocketStore.getStore()
-    console.log(store)
-    response.json(store.get(organizationId))
+    // TODO: reshape store into JSON data
+    // response.json(store.get(organizationId))
+    response.json({ok: true})
+  },
+
+  async server(request, response) {
+    // TODO: get server stats!
+    response.json({ok: true})
   },
 
   async database(request, response) {
