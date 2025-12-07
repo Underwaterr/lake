@@ -1,20 +1,16 @@
 # Lake
 
-The back-end for Robotics 88.
+Robotics 88 back-end server.
 
-Explanations for each file and directory below!
+- `gdal.sh` is for managing the Geospatial Data Abstraction Library (GDAL) container.
+- `/sql` includes scripts for managing a Postgres Docker container, as well as seed data and migrations.
+- `/js` is the heart of the app, a Node.js API.
 
+## API Endpoints
 
-## SQL
-
-Here you will find Bash scripts for managing a Docker container to create & destroy a local database instance. There is also a directory where we keep each database migration.
-
-
-## JS
-
-Here's the Node.js backend.
-
-
-## `psql.sh`
-
-A convenient script for accessing your local PSQL database.
+The API is split into two sections, `services` and `entities`. 
+- `services`
+    - `authentication`, session management for both User and Drone API access
+    - `cortex`, convenience functions for processing Geospatial data on the server
+    - `monitoring`, health checks for websocket connections, the database and the server itself
+- `entities`, for RESTful CRUD operations on relational SQL data. Entities included `user`, `flight`, `burn-unit` and more.
