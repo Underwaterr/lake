@@ -84,14 +84,7 @@ COPY public."Decco" (id, name, status, "isVirtual", callsign, "organizationId") 
 -- Data for Name: DeccoAuthentication; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."DeccoAuthentication" ("deccoId", password, "loginAttempts", "loginAttemptsExpiresAt") FROM stdin;
-1	$argon2id$v=19$m=65536,t=3,p=4$o8Pb0s/CkDjU+noByGeKAA$ci/JPFe0gRxcJbkpnwXqrRa83Uq/qAK+7ps/j2VaVbY	0	2024-09-28 06:38:11.553813
-2	$argon2id$v=19$m=65536,t=3,p=4$Vvyv8cYmB0djYSlHBbpRKw$y0O8SZ8Hx25A3V5hPPI3f/Sy/ixvJW56MCB09sFw+Mo	0	2024-09-28 06:42:24.037644
-3	$argon2id$v=19$m=65536,t=3,p=4$/7+6mUHLTuNlElPb+f9heg$CJ7KQcwfko0P61a94rjsxcfKnAbaIK2467IlHg6h6t4	0	2024-09-28 06:42:55.605413
-4	$argon2id$v=19$m=65536,t=3,p=4$xfTo1pYayZS/VqQNjulmsQ$+1Wia+CN2MN30Ehk1tRxavyl4Ps2HSVy1JvYP+gkxyQ	0	2024-09-28 06:43:38.97689
-5	$argon2id$v=19$m=65536,t=3,p=4$aNOa8GOVptkPEj/Cy5F0Gw$MoKomIHf9e+YyFiG28ld9VZu8RkmncWcoq1f+tIVJWw	0	2024-09-28 06:44:15.777303
-6	$argon2id$v=19$m=65536,t=3,p=4$MzTPAGgZ/5d3jzxTD3VCGQ$AD+0Yccb9FW/00T/9bqq+29kmAxfwpWhttpPOh0dOSY	0	2024-09-28 06:44:55.747672
-\.
+-- [cut]
 
 
 --
@@ -349,13 +342,8 @@ COPY public."FlightEvent" (id, acknowledged, description, level, "startTime", ty
 -- Data for Name: UserAuthentication; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."UserAuthentication" ("userId", password, "loginAttempts", "loginAttemptsExpiresAt") FROM stdin;
-6	$argon2id$v=19$m=65536,t=3,p=4$MnihBGbkM6OmLudPaXqh7w$3LbptD7bEsCLD2rnVB7Hva2wOQf4XE00pzoJlYKZAVE	0	2024-10-15 20:20:48.592807
-5	$argon2id$v=19$m=65536,t=3,p=4$cPSfnY7sBMT3vzZ5ywkZNQ$jdkn/yLEGWZL2YjpZlkumW4MVGcdE9oA3BHEETPdFag	0	2024-10-17 20:34:35.079917
-1	$argon2id$v=19$m=65536,t=3,p=4$HO7GxHROepxbdLlV4swDgA$/+t7oZOCBbuyKywXCl4lek1n3dkdjYMHr8sf1NHauZA	0	2024-09-28 21:42:59.302902
-3	$argon2id$v=19$m=65536,t=3,p=4$+wExckfg0TSp8TBsGkZJKQ$MdLsC/Y6X33/i6a5bixLiXb7GTb6U85zejRsd7fkqcg	0	2024-10-08 05:26:39.246333
-4	$argon2id$v=19$m=65536,t=3,p=4$6CKphqAxUdJVMgK/E32+1Q$Yx7iyFU4A5/XWPIRQabKuaEg//fLXkrA4a+YJsmm+Cc	0	2024-10-15 16:58:45.291907
-\.
+-- [cut]
+
 
 
 --
